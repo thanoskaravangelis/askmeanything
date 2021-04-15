@@ -1,0 +1,131 @@
+body{
+    background-color: white;
+}
+
+@keyframes goingup{
+    0%{
+        top:350px;
+    }
+    100%{
+        top:200px;
+    }
+}
+
+@keyframes appear{
+    0%{
+        opacity:0;
+        top:370px;
+    }
+    100%{
+        opacity:1;
+        top:210px;
+    }
+}
+
+@keyframes signinappear{
+    0%{
+        opacity:0;
+        top:380px;
+    }
+    95%{
+        opacity:0;
+        top:225px;
+    }
+    100%{
+        opacity:1;
+        top:220px;
+    }
+}
+
+.center-content {
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.main-splash-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.title-container{
+    width:100%;
+    font-size: 60px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color:rgb(22, 98, 160);
+    position:relative;
+    animation:goingup 2s 1;
+    animation-fill-mode: forwards;
+}
+
+#line-title{
+    width:420px;
+    border-bottom: 1px solid black;
+    top:370px;
+    display: block;
+    position: relative;
+    animation:appear 2s 1;
+    animation-fill-mode: forwards;
+}
+
+.login-container{
+    display:flex;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgb(167, 218, 238);
+    position: relative;
+    top:250px;
+    animation:signinappear 2s 1;
+    animation-fill-mode: forwards;
+    padding:10px;
+}
+
+.login-form{
+    display: grid;
+    grid-template-rows: 35% 15% 35% 15% ;
+    grid-template-columns: 35% 65% ;
+    padding:15px;
+}
+
+#username-label{
+    font-size:larger;
+    grid-row: 1;
+    grid-column: 1;
+    margin-right:10px;
+}
+
+#password-label{
+    font-size: larger;
+    grid-row:3;
+    grid-column:1;
+    margin-top:7px;
+    margin-right:10px;
+}
+
+#username-input{
+    border:1px solid grey;
+    border-radius: 2px;
+    grid-row:1;
+    grid-column: 2;
+    height:22px;
+}
+
+#password-input{
+    border:1px solid grey;
+    border-radius: 2px;
+    grid-row:3;
+    grid-column: 2;
+    height:22px;
+    margin-top:7px;
+}
+
+#sign-in-button{
+    height:30px;
+    width:80px;
+    border:1px solid grey;
+    border-radius: 2px;
+    background-color: rgb(194, 204, 211);
+}
+
