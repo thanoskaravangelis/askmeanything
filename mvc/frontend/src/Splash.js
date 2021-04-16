@@ -13,6 +13,7 @@ class Splash extends React.Component {
             userId:null,
             logged:false
         }
+        this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.formActive = this.formActive.bind(this);
     }
