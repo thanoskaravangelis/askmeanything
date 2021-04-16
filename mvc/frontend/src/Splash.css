@@ -63,6 +63,7 @@ body{
 .main-splash-container{
     display: flex;
     flex-direction: column;
+    margin-top:-70px;
 }
 
 .basic-container{
