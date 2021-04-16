@@ -87,7 +87,6 @@ body{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     color:rgb(211, 115, 26);
     position:relative;
-    margin-left:-20px;
     animation:goingup 2s 1;
     animation-fill-mode: forwards;
 }
@@ -99,6 +98,10 @@ body{
     background-position:center;
     height:100px;
     width:100px;
+    margin-bottom:-30px;
+    position:relative;
+    animation:goingup 2s 1;
+    animation-fill-mode: forwards;
 }
 
 #line-title{
@@ -179,17 +182,26 @@ body{
     margin-top:15px;
     border:1px solid grey;
     border-radius: 4px;
-    color:rgb(0, 0, 0);
     font-size: larger;
     font-weight: 400;
+}
+
+.active-btn{
+    color:rgb(0, 0, 0);
     background-color: rgb(243, 243, 243);
 }
 
-#sign-in-button:hover{
+.active-btn:hover{
     cursor:pointer;
     color:#fff;
     background-color: rgb(216, 118, 38);
     box-shadow: 0 1px 1px rgba(32, 33, 36, .28);
+}
+
+.disabled-btn:hover{
+    color:#000; 
+    background-color:rgb(243, 243, 243);
+    box-shadow:unset;
 }
 
 #line-title2{
@@ -231,4 +243,3 @@ body{
     cursor:pointer;
     text-decoration: underline;
 }
-
