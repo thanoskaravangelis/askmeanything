@@ -38,7 +38,7 @@ class Splash extends React.Component {
                         </div>
                         <div id="or-div">or</div>
                         <div id="if-you-dont-div">If you don't have an account...</div>
-                        <button id="register-button">Sign Up</button>
+                        <a id="register-link">Sign Up Here</a>
                     </div>
                 </div>
             </div>
