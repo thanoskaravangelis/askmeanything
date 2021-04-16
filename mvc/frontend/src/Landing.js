@@ -35,17 +35,17 @@ class Landing extends React.Component{
                         </div>
                         <div className="content-box">
                             <div className="box-title center-content">
-                                <div id="keyword-title">Top Questions</div>
+                                <div id="keyword-title">Some questions' stats...</div>
                             </div>
                         </div>
                         <div className="small-boxes-container">
                             <div id="small-1" className="small-content-box">
-                                <div className="box-title center-content">
+                                <div id="ask-new-quest" className="box-title center-content">
                                     <div id="keyword-title">Ask a new Question</div>
                                 </div>
                             </div>
                             <div id="small-2" className="small-content-box">
-                                <div className="box-title center-content">
+                                <div id="ans-quest" className="box-title center-content">
                                     <div id="keyword-title">Answer a Question</div>
                                 </div>
                             </div>
