@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 import './index.css';
 import Splash from './Splash.js';
 import Landing from'./Landing.js';
+import SignUp from './SignUp.js';
 //import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -15,6 +16,9 @@ ReactDOM.render(
         </Route>
         <Route path="/" exact>
           <Landing />
+        </Route>
+        <Route path="/signup">
+          <SignUp />
         </Route>
       </Switch>
     </BrowserRouter>

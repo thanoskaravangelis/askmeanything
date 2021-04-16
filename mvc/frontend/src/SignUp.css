@@ -1,0 +1,20 @@
+.signup-container{
+    display:flex;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgba(253, 237, 223, 0.705);
+    position: relative;
+    top:250px;
+    animation:signinappear 2s 1;
+    animation-fill-mode: forwards;
+    padding-left: 10px;
+    padding-bottom: 15px;
+    padding-right:10px;
+    padding-top:8px;
+    margin-top:15px;
+}
+
+.signup-form{
+    display: grid;
+}
