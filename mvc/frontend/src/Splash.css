@@ -18,7 +18,7 @@ body{
     }
     100%{
         opacity:1;
-        top:210px;
+        top:205px;
     }
 }
 
@@ -37,6 +37,18 @@ body{
     }
 }
 
+@keyframes orappear{
+    0%{
+        opacity:0;
+    }
+    95%{
+        opacity:0;
+    }
+    100%{
+        opacity:1;
+    }
+}
+
 .center-content {
     justify-items: center;
     justify-content: center;
@@ -49,14 +61,40 @@ body{
     flex-direction: column;
 }
 
+.basic-container{
+    position:fixed;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background-image: url(images/background2.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:2000px;
+    background-blend-mode:soft-light;
+}
+
 .title-container{
+    display:flex;
     width:100%;
     font-size: 60px;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     color:rgb(22, 98, 160);
     position:relative;
+    margin-left:-20px;
     animation:goingup 2s 1;
     animation-fill-mode: forwards;
+}
+
+#logo{
+    background-image: url(images/lightbulb_icon.png);
+    background-size: 80px;
+    background-repeat: no-repeat;
+    background-position:center;
+    height:100px;
+    width:100px;
 }
 
 #line-title{
@@ -79,7 +117,11 @@ body{
     top:250px;
     animation:signinappear 2s 1;
     animation-fill-mode: forwards;
-    padding:10px;
+    padding-left: 10px;
+    padding-bottom: 15px;
+    padding-right:10px;
+    padding-top:8px;
+    margin-top:15px;
 }
 
 .login-form{
@@ -104,12 +146,17 @@ body{
     margin-right:10px;
 }
 
+#password-label:hover,#username-label:hover{
+    cursor:text;
+}
+
 #username-input{
     border:1px solid grey;
     border-radius: 2px;
     grid-row:1;
     grid-column: 2;
     height:22px;
+    background-color: rgb(243, 243, 243);
 }
 
 #password-input{
@@ -119,13 +166,70 @@ body{
     grid-column: 2;
     height:22px;
     margin-top:7px;
+    background-color: rgb(243, 243, 243);
 }
 
 #sign-in-button{
-    height:30px;
-    width:80px;
+    height:32px;
+    width:100px;
+    margin-top:15px;
     border:1px solid grey;
-    border-radius: 2px;
-    background-color: rgb(194, 204, 211);
+    border-radius: 4px;
+    color:rgb(56, 115, 163);
+    font-size: larger;
+    font-weight: 400;
+    background-color: #fff;
+}
+
+#sign-in-button:hover{
+    cursor:pointer;
+    color:#fff;
+    background-color:rgb(56, 115, 163);
+    box-shadow: 0 1px 1px rgba(32, 33, 36, .28);
+}
+
+#line-title2{
+    width:420px;
+    border-bottom: 1px solid black;
+    display: block;
+}
+
+#or-div {
+    color:rgb(53, 52, 52);
+    font-size:large;
+    margin-top:8px;
+}
+
+.or-register-container {
+    display:flex;
+    flex-direction: column;
+    margin-top:250px;
+    animation:orappear 2s 1;
+    animation-fill-mode: forwards;
+}
+
+#if-you-dont-div{
+    color:rgb(53, 52, 52);
+    font-size:large;
+    margin-top:8px;
+}
+
+#register-button{
+    height:32px;
+    width:100px;
+    margin-top:15px;
+    border:1px solid grey;
+    border-radius: 4px;
+    color:rgb(216, 118, 38);
+    font-size: larger;
+    font-weight: 400;
+    background-color: #fff;
+}
+
+#register-button:hover{
+    cursor:pointer;
+    color:#000;
+    background-color: rgb(216, 118, 38);
+    box-shadow: 0 1px 1px rgba(32, 33, 36, .28);
 }
 

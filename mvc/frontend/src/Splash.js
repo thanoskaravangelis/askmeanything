@@ -10,8 +10,12 @@ class Splash extends React.Component {
 
     render(){
         return(
+            <div className="basic-container">
             <div className="main-splash-container center-content">
-                <div className="title-container">askmeanything</div>
+                <div className="title-container center-content">
+                    <div id="logo"></div>
+                    <div className="title-text">askmeanything</div>
+                </div>
                 <div>
                     <span className="center-content" id="line-title"></span>
                 </div>
@@ -28,6 +32,15 @@ class Splash extends React.Component {
                         </form>
                     </div>
                 </div>
+                <div className="or-register-container center-content">
+                    <div>
+                        <span className="center-content" id="line-title2"></span>
+                    </div>
+                    <div id="or-div">or</div>
+                    <div id="if-you-dont-div">If you don't have an account...</div>
+                    <button id="register-button">Sign Up</button>
+                </div>
+            </div>
             </div>
         );
     }
