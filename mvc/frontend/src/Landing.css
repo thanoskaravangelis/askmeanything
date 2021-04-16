@@ -1,0 +1,195 @@
+
+body{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+@keyframes incoming{
+    0%{
+        left:50%;
+        opacity:0;
+    }
+    100%{
+        left:0%;
+        opacity:1;
+    }
+}
+
+@keyframes lineappear{
+    0%{
+        opacity:0;
+    }
+    100%{
+        opacity:1;
+    }
+}
+
+.landing-container{
+    display:flex;
+    flex-direction: column;
+    padding:5px;
+}
+
+.title-landing{
+    display: flex;
+    width:35%;
+    margin-left:0;
+    font-size: 35px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color:rgb(211, 115, 26);
+}
+
+.title-text{
+    margin-top:30px;
+}
+
+#logo-icon{
+    background-image: url(images/lightbulb_icon.png);
+    background-size: 60px;
+    background-repeat: no-repeat;
+    background-position:center;
+    height:100px;
+    width:100px;
+}
+
+.top-container{
+    display:flex;
+    flex-direction: row;
+    padding-top:5px;
+    height:100px;
+    width:100%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgb(170, 170, 170);
+}
+
+.gap-top{
+    width:50%;
+}
+
+.top-button-container{
+    display:flex;
+    width:15%;
+    height:100px;
+    margin-right:1%;
+    object-fit: contain;
+    object-position: center bottom;
+}
+
+.sign-in-container, .sign-up-container{
+    padding:5px;
+}
+
+#sign-in-btn{
+    height:32px;
+    width:100px;
+    border:1px solid grey;
+    border-radius: 4px;
+    color:rgb(255, 255, 255);
+    font-size: larger;
+    font-weight: 400;
+    background-color: rgb(129, 188, 211);
+    margin-top:35%;
+}
+
+#sign-in-btn:hover{
+    cursor:pointer;
+    color:#fff;
+    background-color:rgb(56, 115, 163);
+    box-shadow: 0 1px 1px rgba(32, 33, 36, .28);
+}
+
+#sign-up-btn{
+    height:32px;
+    width:100px;
+    border:1px solid grey;
+    border-radius: 4px;
+    color:rgb(216, 118, 38);
+    font-size: larger;
+    font-weight: 400;
+    background-color: #fff;
+    margin-top:35%;
+}
+
+#sign-up-btn:hover{
+    cursor:pointer;
+    color:#000;
+    background-color: rgb(216, 118, 38);
+    box-shadow: 0 1px 1px rgba(32, 33, 36, .28);
+}
+
+.main-landing-container{
+    display:flex;
+    flex-direction: column;
+    width:100%;
+    padding:5px;
+}
+
+.heading-text{
+    padding-left:20px;
+    font-size:30px;
+    color:rgb(18, 18, 19);
+    position: relative;
+    animation:incoming 2.5s 1;
+    animation-fill-mode: forwards;
+}
+
+.line-separator{
+    border-bottom: 1px solid rgb(170, 170, 170);
+    animation:lineappear 2.5s 1;
+    animation-fill-mode: forwards;
+}
+
+.boxes-container{
+    display:flex;
+    width:98%;
+    margin-left:1vw;
+    margin-right:1vw;
+    margin-top:1%;
+}
+
+.content-box{
+    display:flex;
+    flex-direction: column;
+    border:1px solid rgb(133, 133, 133);
+    border-radius: 5px;
+    height:500px;
+    width:33%;
+    margin:5px;
+    box-shadow: 2px 2px  rgba(62, 92, 112, 0.28);
+    background-color: rgb(241, 251, 255);
+}
+
+.small-boxes-container{
+    display:flex;
+    flex-direction:column;
+    width:33%;
+    height:500px;
+    margin:5px;
+}
+
+.small-content-box{
+    display:flex;
+    flex-direction:column;
+    border:1px solid rgb(133, 133, 133);
+    border-radius: 5px;
+    height:245px;
+    width:100%;
+    box-shadow: 2px 2px  rgba(62, 92, 112, 0.28);
+    background-color: rgb(190, 237, 255);
+}
+
+#small-1{
+    margin-bottom: 15px;
+}
+
+.box-title{
+    height:35px;
+    width:100%;
+    font-size: larger;
+    font-weight: 500;
+    
+}
+
+#keyword-title{
+    padding:10px;
+}
+
