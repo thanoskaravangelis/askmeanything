@@ -16,6 +16,9 @@ body{
         opacity:0;
         top:370px;
     }
+    95%{
+        opacity:0;
+    }
     100%{
         opacity:1;
         top:205px;
@@ -72,7 +75,7 @@ body{
     background-image: url(images/background2.jpg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size:2000px;
+    background-size:3000px;
     background-blend-mode:soft-light;
 }
 
@@ -112,7 +115,7 @@ body{
     flex-direction: column;
     border: 1px solid black;
     border-radius: 5px;
-    background-color: rgb(167, 218, 238);
+    background-color: rgb(154, 197, 214);
     position: relative;
     top:250px;
     animation:signinappear 2s 1;
