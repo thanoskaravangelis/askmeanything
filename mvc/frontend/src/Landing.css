@@ -26,7 +26,6 @@ body{
 .landing-container{
     display:flex;
     flex-direction: column;
-    padding:5px;
 }
 
 .title-landing{
@@ -144,6 +143,7 @@ body{
     margin-left:2vw;
     margin-right:2vw;
     margin-top:2%;
+    min-height:700px;
 }
 
 .content-box{
@@ -201,5 +201,11 @@ body{
 
 #ask-new-quest, #ans-quest{
     margin-top:100px;
+}
+
+.footer-menu{
+    position: relative;
+    bottom:0;
+    margin-top:10px;
 }
 

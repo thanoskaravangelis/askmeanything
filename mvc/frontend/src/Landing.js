@@ -1,5 +1,6 @@
 import React from 'react';
 import './Landing.css';
+import Footer from './Footer.js';
 
 class Landing extends React.Component{
 
@@ -52,6 +53,7 @@ class Landing extends React.Component{
                         </div>
                     </div>
                 </div>
+                <div className="footer-menu"><Footer /></div>
             </div>
         );
     }
