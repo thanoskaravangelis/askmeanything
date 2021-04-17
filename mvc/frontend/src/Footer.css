@@ -1,0 +1,40 @@
+.footer-container{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding:10px 20px;
+    background-color: rgb(235, 235, 235);
+    vertical-align: middle;
+    position: absolute;
+    bottom: 0;
+    width:100%;
+}
+
+.footer-link{
+    display: block;
+    padding:15px;
+    white-space: nowrap;
+    text-decoration: none;
+    color:#70757a;
+    cursor:pointer;
+    font-size: 14px;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+#git-logo{
+    margin:5px;
+}
+
+#git-logo:hover{
+    border-radius:25px;
+    background-color: rgb(245, 147, 35);
+    cursor: pointer;
+}
+
+#git-footer-link{
+    margin-top:-10px;
+}
