@@ -38,3 +38,16 @@
 #git-footer-link{
     margin-top:-10px;
 }
+
+.git-find-us:hover{
+    cursor: pointer;
+}
+
+.git-find-us:hover > #git-logo{
+        border-radius:25px;
+        background-color: rgb(245, 147, 35);
+}
+
+.git-find-us:hover > #git-footer-link{
+    text-decoration: underline;
+}
