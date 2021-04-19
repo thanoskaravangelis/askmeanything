@@ -16,7 +16,7 @@ class Landing extends React.Component{
                     </div>
                     <div className="top-button-container">
                         <div className="sign-in-container">
-                            <button id="sign-in-btn">Sign In</button>
+                            <div id="sign-in-btn">Sign In</div>
                         </div>
                         <div className="sign-up-container">
                             <button id="sign-up-btn">Sign Up</button>
@@ -31,24 +31,22 @@ class Landing extends React.Component{
                     <div className="boxes-container">
                         <div className="content-box">
                             <div className="box-title center-content">
+                                <div id="keyword-title">Add a new question</div>
+                            </div>
+                        </div>
+                        <div className="content-box">
+                            <div className="box-title center-content">
+                                <div id="keyword-title">Answer a question</div>
+                            </div>
+                        </div>
+                        <div className="content-box">
+                            <div className="box-title center-content">
                                 <div id="keyword-title">Popular keywords</div>
                             </div>
                         </div>
                         <div className="content-box">
                             <div className="box-title center-content">
                                 <div id="keyword-title">Some questions' stats...</div>
-                            </div>
-                        </div>
-                        <div className="small-boxes-container">
-                            <div id="small-1" className="small-content-box">
-                                <div id="ask-new-quest" className="box-title center-content">
-                                    <div id="keyword-title">Ask a new Question</div>
-                                </div>
-                            </div>
-                            <div id="small-2" className="small-content-box">
-                                <div id="ans-quest" className="box-title center-content">
-                                    <div id="keyword-title">Answer a Question</div>
-                                </div>
                             </div>
                         </div>
                     </div>
