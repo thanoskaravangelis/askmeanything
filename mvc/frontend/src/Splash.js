@@ -16,12 +16,17 @@ class Splash extends React.Component {
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.formActive = this.formActive.bind(this);
+        this.homeRedirect = this.homeRedirect.bind(this);
     }
 
     componentDidMount() {
         const signinbut = document.getElementById("sign-in-button");
         signinbut.style.color='rgb(0, 0, 0)';
         signinbut.style.backgroundColor='rgb(243, 243, 243)';
+    }
+
+    homeRedirect = (e) => {
+        window.location.href = "/";
     }
 
     handleSubmit = (e) => {
@@ -86,7 +91,7 @@ class Splash extends React.Component {
                     <div className="main-splash-container center-content">
                         <div id="logo"></div>
                         <div className="title-container center-content">
-                            <div className="title-text">askmeanything</div>
+                            <div className="title-text" onClick={this.homeRedirect}>askmeanything</div>
                         </div>
                         <div>
                             <span className="center-content" id="line-title"></span>
@@ -110,7 +115,7 @@ class Splash extends React.Component {
                             </div>
                             <div id="or-div">or</div>
                             <div id="if-you-dont-div">If you don't have an account...</div>
-                            <a id="register-link" href="/">Sign Up Here</a>
+                            <a id="register-link" href="/signup">Sign Up Here</a>
                         </div>
                     </div>
                 </div>
