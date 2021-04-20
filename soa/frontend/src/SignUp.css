@@ -1,0 +1,329 @@
+@keyframes leaving{
+    0%{
+        display:block;
+        opacity:1;
+        left:0;
+    }
+    50%{
+        top: 1000;
+    }
+    100%{
+        display:none;
+        opacity:0;
+        left:-400px;
+        width: 0%;
+    }
+}
+
+@keyframes back-to-first{
+    0%{
+        right:400px;
+        opacity:0;
+    }
+    100%{
+        right:0;
+        opacity: 1;
+    }
+}
+
+@keyframes second-going-right{
+    0%{
+        right:0;
+        opacity:1;
+    }
+    100%{
+        right:-400px;
+        opacity: 0;
+    }
+}
+
+@keyframes second-arriving{
+    0%{
+        opacity:0;
+        margin-left:400px;
+    }
+    100%{
+        opacity:1;
+        margin-left: 0;
+    }
+}
+
+@keyframes second-leaving{
+    0%{
+        display:block;
+        opacity:1;
+        left:0;
+    }
+    100%{
+        display: none;
+        opacity:0;
+        left: -400px;
+    }
+}
+
+@keyframes final-arriving{
+    0%{
+        right:-400px;
+        opacity:0;
+    }
+    100%{
+        right:0;
+        opacity: 1;
+    }
+}
+
+@keyframes final-leaving{
+    0%{
+        right:0;
+        opacity:1;
+    }
+    100%{
+        right:400px;
+        opacity: 0;
+    }
+}
+
+@keyframes second-back {
+    0%{
+        right:-400px;
+        opacity:0;
+    }
+    100%{
+        right:0;
+        opacity:1;
+    }
+}
+
+.signup-container{
+    display:flex;
+    flex-direction: column;
+    position: relative;
+    top:250px;
+    animation:signinappear 2s 1;
+    animation-fill-mode: forwards;
+    padding-left: 10px;
+    padding-bottom: 15px;
+    padding-right:10px;
+    padding-top:8px;
+    margin-top:15px;
+}
+
+.signup-form{
+    height:200px;
+    width: 400px;
+    display: grid;
+    grid-template-rows: 17% 8% 17% 8% 17% 8% 17% 8%;
+    grid-template-columns: 40% 60% ;
+    padding:15px;
+}
+
+.signup-label{
+    font-size:larger;
+    font-weight: 300;
+    margin-right:180px;
+    margin-top: 4px;
+    width:max-content;
+}
+
+.signup-field{
+    margin-left:10px;
+    border-style: hidden;
+    border-radius:5px 5px 0px 0px ;
+    height:26px;
+    background-color: rgba(211, 211, 211, 0.383);
+}
+
+.signup-field:focus , .signup-field:active{
+    outline: none;
+    border-bottom:1px groove grey;
+}
+
+#email-label{
+    grid-row:1;
+    grid-column: 1;
+}
+
+#signup-email{
+    grid-row:1;
+    grid-column: 2;
+}
+
+#username-sgnp-label{
+    grid-row:3;
+    grid-column: 1;
+}
+
+#signup-username{
+    grid-row:3;
+    grid-column:2;
+}
+
+#password-sgnp-label{
+    grid-row:5;
+    grid-column: 1;
+}
+
+#signup-password{
+    grid-row:5;
+    grid-column: 2;
+}
+
+#re-password-label{
+    grid-row:7;
+    grid-column: 1;
+    width: max-content;
+}
+
+#signup-re-password{
+    grid-row:7;
+    grid-column: 2;
+}
+
+.next-button,.skip-button{
+    display: flex;
+    flex-direction: row;
+}
+
+#next-form-button,#skip-form-button,#back-to-basic,#back-button{
+    font-size: larger;
+    font-weight: 300;
+    padding:5px 10px;
+    color:rgb(177, 80, 0);
+}
+
+#next-form-button{
+    margin-left: 350px;
+}
+
+#skip-form-button {
+    margin-left: 300px;
+}
+
+#next-form-button:hover ,#back-button:hover, #skip-form-button:hover,#back-to-basic:hover{
+    text-decoration: underline;
+    cursor:pointer;
+}
+
+#next-form-container,#skip-form-container{
+    padding-bottom:5px;
+    border-bottom: 1px solid grey;
+    width:100%;
+}
+
+.first-form{
+    padding:1px;
+}
+
+.first-form-leaving{
+    position: relative;
+    animation:leaving 1.5s 1;
+    animation-fill-mode: forwards;
+}
+
+.first-form-back{
+    position: relative;
+    animation:back-to-first 1.5s 1;
+    animation-fill-mode: forwards;
+}
+
+.second-form-back{
+    position: relative;
+    animation:second-going-right 1.5s 1;
+    animation-fill-mode: forwards;
+}
+
+.second-form-appearing{
+    position: relative;
+    animation:second-arriving 1.5s 1;
+    animation-fill-mode: forwards;
+}
+
+.second-form-leaving{
+    animation:second-leaving 1.5s 1;
+    animation-fill-mode: forwards;
+}
+
+.second-form-again{
+    animation:second-back 1.5s 1;
+    animation-fill-mode: forwards;
+}
+
+.final-form-back{
+    animation:final-back 1.5s 1;
+    animation-fill-mode: forwards;
+}
+
+.final-form-arriving{
+    position: relative;
+    animation:final-arriving 1.5s 1;
+    animation-fill-mode: forwards;
+}
+
+.second-form{
+    padding:1px;
+}
+
+.second-form t{
+    font-weight: 300;
+}
+
+.more-signup-form {
+    display: grid;
+    grid-template-rows: 14% 6% 14% 6% 14% 6% 14% 6% 14% 6%;
+    grid-template-columns: 40% 60%;
+    padding:15px;
+    height:200px;
+    width:400px;
+}
+
+#firstname-label{
+    grid-row:1;
+    grid-column: 1;
+    margin-right: 100px;
+    width:max-content;
+}
+
+#signup-firstname{
+    grid-row: 1;
+    grid-column: 2;
+}
+
+#lastname-label{
+    grid-row:3;
+    grid-column: 1;
+}
+
+#signup-lastname{
+    grid-row: 3;
+    grid-column: 2;
+}
+
+#dateofbirth-label{
+    grid-row:5;
+    grid-column: 1;
+}
+
+#signup-dateofbirth{
+    grid-row: 5;
+    grid-column: 2;
+}
+
+#country-label{
+    grid-row:7;
+    grid-column: 1;
+}
+
+#signup-country{
+    grid-row: 7;
+    grid-column: 2;
+}
+
+#url-label{
+    grid-row:9;
+    grid-column: 1;
+}
+
+#signup-url{
+    grid-row: 9;
+    grid-column: 2;
+}
