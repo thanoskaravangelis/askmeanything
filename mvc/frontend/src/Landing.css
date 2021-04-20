@@ -25,7 +25,8 @@ body{
 
 @keyframes title-appear{
     0%{
-        color: transparent;
+        margin-top:20px;
+        color:transparent;
     }
     80%{
         color: #000;
@@ -48,6 +49,10 @@ body{
 
 .title-text{
     margin-top:30px;
+}
+
+.title-text:hover{
+    cursor: pointer;
 }
 
 #logo-icon{
@@ -163,13 +168,12 @@ body{
     height:600px;
     width:25%;
     margin:5px; ;
-    background-color: rgb(236, 236, 236) ;
+    background: linear-gradient(rgba(255, 255, 255, 0.801),rgb(230, 230, 230) ) ;
 }
 
 .content-box:hover{
     background: linear-gradient(rgba(255, 175, 122, 0.685), rgb(202, 121, 45));
     box-shadow: 4px 4px 8px rgba(114, 114, 114, 0.561);
-    animation: title-appear 1.2s 1;
 }
 
 .small-boxes-container{
@@ -203,6 +207,10 @@ body{
     height:35px;
     width:100%;
     font-size: larger;
+}
+
+.content-box:hover > .box-title{
+    animation: title-appear 1.2s 1;
 }
 
 #keyword-title{

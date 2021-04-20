@@ -4,13 +4,22 @@ import Footer from './Footer.js';
 
 class Landing extends React.Component{
 
+    constructor(props) {
+        super(props);
+        this.homeRedirect = this.homeRedirect.bind(this);
+    }
+
+    homeRedirect = (e) => {
+        window.location.href = "/";
+    }
+
     render(){
         return(
             <div className="landing-container">
                 <div className="top-container">
                     <div className="title-landing">
                         <div id="logo-icon"></div>
-                        <div className="title-text">askmeanything</div>
+                        <div className="title-text" onClick={this.homeRedirect}>askmeanything</div>
                     </div>
                     <div className="gap-top" >
                     </div>
