@@ -25,11 +25,11 @@ body{
 
 @keyframes title-appear{
     0%{
-        margin-top:20px;
         color:transparent;
     }
     80%{
         color: #000;
+        font-size: 22px;
     }
 }
 
@@ -155,7 +155,7 @@ body{
     padding-right:2vw;
     padding-top:2%;
     min-height:700px;
-    background: linear-gradient(rgba(255, 255, 255, 0.589) ,rgb(235, 235, 235));
+    background: linear-gradient(rgba(241, 241, 241, 0.589) ,rgba(197, 197, 197, 0.6));
 }
 
 .content-box{
@@ -168,39 +168,12 @@ body{
     height:600px;
     width:25%;
     margin:5px; ;
-    background: linear-gradient(rgba(255, 255, 255, 0.801),rgb(230, 230, 230) ) ;
+    background: linear-gradient(rgba(231, 231, 231, 0.801) 75%,rgb(189, 189, 189) ) ;
 }
 
 .content-box:hover{
-    background: linear-gradient(rgba(255, 175, 122, 0.685), rgb(202, 121, 45));
+    background: linear-gradient(rgb(240, 104, 14) 100px, rgb(255, 206, 159)400px);
     box-shadow: 4px 4px 8px rgba(114, 114, 114, 0.561);
-}
-
-.small-boxes-container{
-    display:flex;
-    flex-direction:column;
-    width:33%;
-    height:500px;
-    margin:5px;
-}
-
-.small-content-box{
-    display:flex;
-    flex-direction:column;
-    border:1px solid rgb(133, 133, 133);
-    border-radius: 5px;
-    height:245px;
-    width:100%;
-    background-color: rgba(255, 136, 24, 0.726);
-}
-
-.small-content-box:hover{
-    cursor:pointer;
-    box-shadow: 4px 4px  rgba(62, 92, 112, 0.28);
-}
-
-#small-1{
-    margin-bottom: 15px;
 }
 
 .box-title{
@@ -209,16 +182,50 @@ body{
     font-size: larger;
 }
 
-.content-box:hover > .box-title{
+.content-box:hover > .box-title > .keyword-title{
     animation: title-appear 1.2s 1;
+    animation-fill-mode:forwards;
 }
 
-#keyword-title{
-    padding:10px;
+.keyword-title{
+    padding:28px;
 }
 
 #ask-new-quest, #ans-quest{
     margin-top:100px;
+}
+
+.image-container{
+    margin-top:55px;
+}
+
+#quest-img{
+    height:12vw;
+    border-radius: 2px;
+}
+
+.quest-text{
+    margin:20px;
+    text-align: left;
+    font-size: larger;
+    color:rgb(46, 46, 46);
+}
+
+#quest-but{
+    margin:15px;
+    padding:10px;
+    height:50px;
+    width:12vw;
+    font-size: larger;
+    border:1px solid grey;
+    border-radius: 2px;
+    background: rgb(255, 206, 159);
+}
+
+#quest-but:hover{
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    color:rgb(77, 22, 0);
 }
 
 .footer-menu{
@@ -226,4 +233,5 @@ body{
     bottom:0;
     margin-top:60px;
 }
+
 

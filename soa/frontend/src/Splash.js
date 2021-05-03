@@ -19,11 +19,7 @@ class Splash extends React.Component {
         this.homeRedirect = this.homeRedirect.bind(this);
     }
 
-    componentDidMount() {
-        const signinbut = document.getElementById("sign-in-button");
-        signinbut.style.color='rgb(0, 0, 0)';
-        signinbut.style.backgroundColor='rgb(243, 243, 243)';
-    }
+    componentDidMount() {}
 
     homeRedirect = (e) => {
         window.location.href = "/";
@@ -31,9 +27,6 @@ class Splash extends React.Component {
 
     handleSubmit = (e) => {
         console.log("submitted");
-        this.setState({
-            error: null
-        });
         window.location.href = "/";
         e.preventDefault();
     }
@@ -51,8 +44,6 @@ class Splash extends React.Component {
         if (this.state.username==null || this.state.password==null) {
             console.log("Cannot sign in due to missing fields.");
             signinbut.classList.remove('active-btn');
-            signinbut.style.color='rgb(0, 0, 0)';
-            signinbut.style.backgroundColor='rgb(243, 243, 243)';
             this.setState({
                 submitOff:true
             });
@@ -61,16 +52,12 @@ class Splash extends React.Component {
             if (this.state.username.length===0 || this.state.password.length===0) {
                 console.log("Cannot sign in due to missing fields.");
                 signinbut.classList.remove('active-btn');
-                signinbut.style.color='rgb(0, 0, 0)';
-                signinbut.style.backgroundColor='rgb(243, 243, 243)';
                 this.setState({
                     submitOff:true
                 });
             }
             else 
             {
-                signinbut.style.color='';
-                signinbut.style.backgroundColor='';
                 signinbut.classList.add('active-btn');
                 console.log("submit activated");
                 this.setState({

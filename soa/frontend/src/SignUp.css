@@ -78,14 +78,14 @@
         opacity:1;
     }
     100%{
-        right:400px;
+        right:-400px;
         opacity: 0;
     }
 }
 
 @keyframes second-back {
     0%{
-        right:-400px;
+        right:400px;
         opacity:0;
     }
     100%{
@@ -239,17 +239,20 @@
 }
 
 .second-form-leaving{
+    position: relative;
     animation:second-leaving 1.5s 1;
     animation-fill-mode: forwards;
 }
 
 .second-form-again{
+    position: relative;
     animation:second-back 1.5s 1;
     animation-fill-mode: forwards;
 }
 
 .final-form-back{
-    animation:final-back 1.5s 1;
+    position: relative;
+    animation:final-leaving 1.5s 1;
     animation-fill-mode: forwards;
 }
 
