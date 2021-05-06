@@ -7,10 +7,7 @@ import { User } from './entities/user.entity';
 export class UsersService {
   private readonly users: User[] = [];
   create(createUserDto: CreateUserDto) {
-    const id = this.users.length + 1;
-    const user = { id: id, ...createUserDto };
-    this.users.push(user);
-    return user;
+    return 'This user';
   }
 
   findAll() {
