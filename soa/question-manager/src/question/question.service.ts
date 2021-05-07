@@ -33,7 +33,7 @@ export class QuestionService {
     });
   }
 
-  remove(id: number): Promise<void> {
+  async remove(id: number): Promise<void> {
     return this.manager.transaction(async manager => {
       const question = await this.manager.findOne(Question, id);
       if (!question) throw new NotFoundException('Question ${id} not found');
