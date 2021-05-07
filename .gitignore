@@ -4,6 +4,7 @@
 dist/
 node_modules/
 
+soa/question-manager/ormconfig.json
 .idea/
 .prettierrc
 .eslintrc.js
