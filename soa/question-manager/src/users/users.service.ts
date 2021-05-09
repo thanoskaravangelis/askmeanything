@@ -26,16 +26,16 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     return this.manager.transaction( async manager => {
-      const user = await this.manager.findOne(User, id);
+      const user = await manager.findOne(User, id);
       if (!user) throw new NotFoundException(`User #${id} not found`);
-      this.manager.merge(User, user, updateUserDto);
-      return this.manager.save(user);
+      manager.merge(User, user, updateUserDto);
+      return manager.save(user);
     });
   }
 
   async remove(id: number): Promise<void>{
     return this.manager.transaction( async manager => {
-      const user = await this.manager.findOne(User, id);
+      const user = await manager.findOne(User, id);
       if (!user) throw new NotFoundException(`User #${id} not found`);
       await manager.delete(User,id);
     });
