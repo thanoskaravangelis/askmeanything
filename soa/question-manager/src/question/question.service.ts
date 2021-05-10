@@ -26,16 +26,16 @@ export class QuestionService {
 
   async update(id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
     return this.manager.transaction(async manager => {
-      const question = await this.manager.findOne(Question, id);
+      const question = await manager.findOne(Question, id);
       if (!question) throw new NotFoundException('Question ${id} not found');
-      this.manager.merge(Question, question, updateQuestionDto);
-      return this.manager.save(question);
+      manager.merge(Question, question, updateQuestionDto);
+      return manager.save(question);
     });
   }
 
   async remove(id: number): Promise<void> {
     return this.manager.transaction(async manager => {
-      const question = await this.manager.findOne(Question, id);
+      const question = await manager.findOne(Question, id);
       if (!question) throw new NotFoundException('Question ${id} not found');
       await manager.delete(Question, id);
     });
