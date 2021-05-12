@@ -1,4 +1,13 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
 import {User} from "../../users/entities/user.entity";
 import {Answer} from "../../answer/entities/answer.entity";
 
@@ -21,13 +30,13 @@ export class Question {
     text: string;
 
     @Column({nullable:true})
-    date: Date;
-
-    @Column({nullable:true})
     views: number;
 
-    @Column({nullable:true})
-    updatedAt: Date;
+    @UpdateDateColumn({nullable:true})
+    updatedAt;
+
+    @CreateDateColumn()
+    createdAt;
 
     @OneToMany(type => Answer, answer => answer.question)
     answers: Answer[];
