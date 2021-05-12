@@ -32,12 +32,6 @@ export class UsersController {
     return this.usersService.findMyAnswers(+id);
   }
 
-  @Get(':id/:startDate/:endDate')
-  findQuestionsPerPeriod(@Param('id') id :string ,
-                         @Param('startDate') startDate: Date ,
-                         @Param('endDate') endDate: Date) {
-    return this.usersService.findQuestionsPerPeriod(+id, startDate , endDate);
-  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
