@@ -22,6 +22,23 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
+  @Get(':id/myquestions')
+  findMyQuestions(@Param('id') id: string) {
+    return this.usersService.findMyQuestions(+id);
+  }
+
+  @Get(':id/myanswers')
+  findMyAnswers(@Param ('id') id:string) {
+    return this.usersService.findMyAnswers(+id);
+  }
+
+  @Get(':id/:startDate/:endDate')
+  findQuestionsPerPeriod(@Param('id') id :string ,
+                         @Param('startDate') startDate: Date ,
+                         @Param('endDate') endDate: Date) {
+    return this.usersService.findQuestionsPerPeriod(+id, startDate , endDate);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);

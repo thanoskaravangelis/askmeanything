@@ -4,6 +4,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import {InjectEntityManager} from "@nestjs/typeorm";
 import {EntityManager} from "typeorm";
+import { Question } from "../question/entities/question.entity";
+import { Answer } from "../answer/entities/answer.entity";
+import { query } from "express";
 
 @Injectable()
 export class UsersService {
@@ -39,5 +42,16 @@ export class UsersService {
       if (!user) throw new NotFoundException(`User #${id} not found`);
       await manager.delete(User,id);
     });
+  }
+
+  //additional operations
+  async findMyQuestions(userid: number): Promise<Question[]> {
+    const user = await this.manager.findOne(User,userid,{ relations: ["questions"]});
+    return user.questions;
+  }
+
+  async findMyAnswers(userid:number): Promise<Answer[]> {
+    const user = await this.manager.findOne(User,userid,{relations:["answers"]});
+    return user.answers;
   }
 }
