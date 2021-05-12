@@ -1,6 +1,7 @@
-import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Question} from "../../question/entities/question.entity";
 import {User} from "../../users/entities/user.entity";
+import {UserAnswerVote} from "../../user-answer-vote/entities/user-answer-vote.entity";
 
 @Entity()
 export class Answer{
@@ -29,4 +30,7 @@ export class Answer{
 
     @Column({nullable:true})
     updatedAt: Date;
+
+    @OneToMany(type => UserAnswerVote, useranswervote =>useranswervote.answer)
+    votes: UserAnswerVote[];
 }
