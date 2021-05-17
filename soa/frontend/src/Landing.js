@@ -1,38 +1,18 @@
 import React from 'react';
 import './Landing.css';
 import Footer from './Footer.js';
-import askquestion from './images/askquestion.jpg'
+import NavBar from './NavBar.js';
 
 class Landing extends React.Component{
 
     constructor(props) {
         super(props);
-        this.homeRedirect = this.homeRedirect.bind(this);
-    }
-
-    homeRedirect = (e) => {
-        window.location.href = "/";
     }
 
     render(){
         return(
             <div className="landing-container">
-                <div className="top-container">
-                    <div className="title-landing">
-                        <div id="logo-icon"></div>
-                        <div className="title-text" onClick={this.homeRedirect}>askmeanything</div>
-                    </div>
-                    <div className="gap-top" >
-                    </div>
-                    <div className="top-button-container">
-                        <div className="sign-in-container">
-                            <div id="sign-in-btn">Sign In</div>
-                        </div>
-                        <div className="sign-up-container">
-                            <button id="sign-up-btn">Sign Up</button>
-                        </div>
-                    </div>
-                </div>
+                <NavBar />
                 <div className="main-landing-container">
                     <div className="heading-text">
                         <p>Welcome to askmeanything!</p>
@@ -44,7 +24,7 @@ class Landing extends React.Component{
                                 <div className="keyword-title">Add a new question</div>
                             </div>
                             <div className="image-container center-content">
-                                <img id="quest-img" src={askquestion}/>
+                                <div id="quest-img"></div>
                             </div>
                             <div className="quest-text">
                                 <p>Having trouble solving an issue? <br></br> Would you like a second
