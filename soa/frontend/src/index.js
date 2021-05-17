@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route} from "react-router-dom";
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Splash from './Splash.js';
 import Landing from'./Landing.js';
 import SignUp from "./SignUp";
+import NewQuestion from"./NewQuestion";
 //import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -19,6 +21,9 @@ ReactDOM.render(
         </Route>
         <Route path="/signup">
           <SignUp />
+        </Route>
+        <Route path="/newquestion">
+          <NewQuestion />
         </Route>
       </Switch>
     </BrowserRouter>
