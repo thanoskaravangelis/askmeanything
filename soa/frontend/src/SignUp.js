@@ -174,7 +174,7 @@ class SignUp extends React.Component {
                                             </div>
                                         </div>
                                         <div id="final-form-buttons">
-                                            <input id="signup-button" type="submit" disabled={this.state.submitOff} value="Sign Up" onClick={this.handleSubmit}/>
+                                            <input id="signup-btn" type="submit" disabled={this.state.submitOff} value="Sign Up" onClick={this.handleSubmit}/>
                                             <div className="skip-button">
                                                 <div id="back-button" className="center-content" onClick={this.backToSecond}>Back</div>
                                             </div>
