@@ -9,6 +9,10 @@ class Landing extends React.Component{
         super(props);
     }
 
+    redirectToNewQuestion = (e) => {
+        window.location.href = '/newquestion' ;
+    }
+
     render(){
         return(
             <div className="landing-container">
@@ -33,7 +37,7 @@ class Landing extends React.Component{
                                 </p>
                             </div>
                             <div className="question-but center-content">
-                                <button id="quest-but"><div>Ask a new Question</div></button>
+                                <button id="quest-but" onClick={this.redirectToNewQuestion}><div>Ask a new Question</div></button>
                             </div>
                         </div>
                         <div className="content-box">

@@ -1,9 +1,8 @@
 import React from 'react';
 import './Landing.css';
-import './NewQuestion.css'
+import './NewQuestion.css';
 import NavBar from './NavBar.js';
 import Footer from './Footer.js';
-import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import Form from 'react-bootstrap/Form';
 import Button from'react-bootstrap/Button';
@@ -45,7 +44,7 @@ class NewQuestion extends React.Component{
                                 <h4>Keywords</h4>
                                 <Form.Label>Select from existing ones:</Form.Label>
                                 <CreatableSelect
-                                    defaultValue={[this.state.options[2], this.state.options[3]]}
+                                    defaultValue={[this.state.options[4], this.state.options[3]]}
                                     isMulti
                                     placeholder="Select from existing or create one..."
                                     name="keywords"
@@ -53,7 +52,9 @@ class NewQuestion extends React.Component{
                                     className="basic-multi-select"
                                     classNamePrefix="select"
                                 />
-                                <Button id="sbmt-btn" as="input" type="submit" value="Add Question" />
+                                <div className="center-content">
+                                    <Button id="sbmt-btn" as="input" type="submit" value="Add Question" />
+                                </div>
                             </Form>
                         </div>
                     </div>

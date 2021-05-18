@@ -20,3 +20,27 @@
 #sbmt-btn{
     margin-top:20px;
 }
+
+.form-control:focus{
+    border-color: var(--orange);
+    box-shadow: 0 0 0 0.2rem rgba(211, 115, 26, 0.548);
+}
+
+.css-1pahdxg-control, .css-1pahdxg-control:hover, .css-1pahdxg-control:focus, .css-1pahdxg-control:active {
+    box-shadow: 0 0 0 0.2rem rgba(211, 115, 26, 0.548) !important;
+    border-color: var(--orange) !important;
+}
+
+.btn-primary{
+    background-color: rgb(255, 123, 0);
+    border-color:rgb(255, 123, 0) ;
+}
+
+.btn-primary:hover{
+    background-color: rgb(255, 139, 31);
+    border-color: rgb(255, 139, 31);
+}
+
+.select__option:hover, .select__option:focus, .select__option:active, .select__option:focus-visible{
+    background-color: rgba(255, 139, 31, 0.705);
+}
