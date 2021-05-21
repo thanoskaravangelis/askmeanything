@@ -1,4 +1,4 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
 import {Question} from "../../question/entities/question.entity";
 import {User} from "../../users/entities/user.entity";
 import {UserAnswerVote} from "../../user-answer-vote/entities/user-answer-vote.entity";
@@ -25,11 +25,11 @@ export class Answer{
     @Column()
     text: string;
 
-    @Column()
-    date: Date;
+    @UpdateDateColumn({nullable:true})
+    updatedAt;
 
-    @Column({nullable:true})
-    updatedAt: Date;
+    @CreateDateColumn()
+    createdAt;
 
     @OneToMany(type => UserAnswerVote, useranswervote =>useranswervote.answer)
     votes: UserAnswerVote[];
