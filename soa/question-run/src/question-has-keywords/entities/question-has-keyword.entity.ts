@@ -7,7 +7,13 @@ export class QuestionHasKeyword {
   @PrimaryGeneratedColumn()
   id:number;
 
-  @ManyToOne (() => Keyword, question => question.keywords, {nullable: false, onDelete: "CASCADE"})
+  @Column()
+  questionId : number;
+
+  @Column()
+  keywordId : number;
+
+  @ManyToOne (() => Question, question => question.keywords, {nullable: false, onDelete: "CASCADE"})
   @JoinColumn({name: 'questionId'})
   question: Question;
 
