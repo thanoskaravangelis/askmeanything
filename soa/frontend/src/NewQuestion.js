@@ -59,7 +59,7 @@ class NewQuestion extends React.Component{
                         </div>
                     </div>
                 </div>
-                <div className="footer-container">
+                <div className="footer-page-container">
                     <Footer />
                 </div>
             </div>

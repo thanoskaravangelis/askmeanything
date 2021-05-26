@@ -1,5 +1,6 @@
 import React from 'react';
 import './Splash.css';
+import { loginPost } from './api';
 
 
 class Splash extends React.Component {
@@ -11,7 +12,8 @@ class Splash extends React.Component {
             password: "",
             submitOff: true,
             userId:null,
-            logged:false
+            logged:false,
+            error: null
         }
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,7 +29,20 @@ class Splash extends React.Component {
 
     handleSubmit = (e) => {
         console.log("submitted");
-        window.location.href = "/";
+        const params = new URLSearchParams();
+        params.append('username', this.state.username);
+        params.append('password', this.state.password);
+        loginPost(params)
+            .then(response => {
+                localStorage.setItem('token', response.data.access_token);
+                window.location.href = "/";
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({
+                    error : "Wrong username or password"
+                })
+            })
         e.preventDefault();
     }
 

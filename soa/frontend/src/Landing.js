@@ -13,6 +13,10 @@ class Landing extends React.Component{
         window.location.href = '/newquestion' ;
     }
 
+    redirectToQuestions = (e) => {
+        window.location.href = '/questions';
+    }
+
     render(){
         return(
             <div className="landing-container">
@@ -37,12 +41,23 @@ class Landing extends React.Component{
                                 </p>
                             </div>
                             <div className="question-but center-content">
-                                <button id="quest-but" onClick={this.redirectToNewQuestion}><div>Ask a new Question</div></button>
+                                <button className="quest-but" onClick={this.redirectToNewQuestion}><div>Ask a new Question</div></button>
                             </div>
                         </div>
                         <div className="content-box">
                             <div className="box-title center-content">
                                 <div className="keyword-title">Answer a question</div>
+                            </div>
+                            <div className="image-container center-content">
+                                <div id="quest-img-2"></div>
+                            </div>
+                            <div className="quest-text">
+                                <p>Do you like solving problems? <br></br> Are you a person that enjoys helping others? <br></br>
+                                    Browse the questions and answer to any one of them! <br></br> 
+                                </p>
+                            </div>
+                            <div className="question-but center-content">
+                                <button className="quest-but" onClick={this.redirectToQuestions}><div>Answer questions</div></button>
                             </div>
                         </div>
                         <div className="content-box">
@@ -57,7 +72,9 @@ class Landing extends React.Component{
                         </div>
                     </div>
                 </div>
-                <div className="footer-menu"><Footer /></div>
+                <div className="footer-page-container">
+                    <Footer />
+                </div>
             </div>
         );
     }
