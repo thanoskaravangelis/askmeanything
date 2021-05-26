@@ -3,8 +3,10 @@
 # dependencies
 dist/
 node_modules/
+authenticator/node_modules/
 
 soa/question-manager/ormconfig.json
+soa/question-run/ormconfig.json
 .idea/
 .prettierrc
 .eslintrc.js
