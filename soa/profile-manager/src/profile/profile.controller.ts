@@ -1,4 +1,4 @@
-import { Controller, Body, Patch, Param } from "@nestjs/common";
+import { Controller, Body, Patch, Param, Get } from "@nestjs/common";
 import { ProfileService } from './profile.service';
 import axios from "axios";
 
@@ -8,8 +8,23 @@ axios.defaults.baseURL = 'http://localhost:3030';
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  @Patch(':id')
+  @Patch(':id/edit')
   updateUser(@Param('id') id: string, @Body() body) {
     return this.profileService.updateUser(id,body);
+  }
+
+  @Get(':id/myquestions')
+  getMyQuestions(@Param('id') id: string) {
+    return this.profileService.getMyQuestions(id);
+  }
+
+  @Get(':id/myanswers')
+  getMyAnswers(@Param('id') id: string) {
+    return this.profileService.getMyAnswers(id);
+  }
+
+  @Get(':id/mystats')
+  getMyStats(@Param('id') id: string) {
+    return this.profileService.getMyStats(id);
   }
 }
