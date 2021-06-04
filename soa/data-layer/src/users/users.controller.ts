@@ -31,4 +31,16 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
+
+  //additional from CRUD
+
+  @Get(':id/myquestions')
+  findMyQuestions(@Param('id') id: string) {
+    return this.usersService.findMyQuestions(+id);
+  }
+
+  @Get(':id/myanswers')
+  findMyAnswers(@Param('id') id : string) {
+    return this.usersService.findMyAnswers(+id);
+  }
 }
