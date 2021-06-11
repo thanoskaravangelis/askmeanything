@@ -6,11 +6,11 @@ axios.defaults.baseURL = 'http://localhost:3030';
 
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(private readonly profileService: ProfileService) { }
 
   @Patch(':id/edit')
   updateUser(@Param('id') id: string, @Body() body) {
-    return this.profileService.updateUser(id,body);
+    return this.profileService.updateUser(id, body);
   }
 
   @Get(':id/myquestions')
@@ -23,8 +23,8 @@ export class ProfileController {
     return this.profileService.getMyAnswers(id);
   }
 
-  @Get(':id/mystats')
-  getMyStats(@Param('id') id: string) {
-    return this.profileService.getMyStats(id);
-  }
+  // @Get(':id/mystats')
+  // getMyStats(@Param('id') id: string) {
+  //   return this.profileService.getMyStats(id);
+  // }
 }
