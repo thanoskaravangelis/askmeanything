@@ -24,9 +24,11 @@ export class UsersService {
   }
 
   async validSignUp(username,email) :Promise<boolean>{
-    const res1 = axios.get(dataUrl+`users/verify/${username}`);
-    const res2 = axios.get(dataUrl+`users/verifymail/${email}`);
-    return !res1 && !res2;
+    const res1 = await axios.get(dataUrl+`users/verify/${username}`);
+    const res2 = await axios.get(dataUrl+`users/verifymail/${email}`);
+    console.log(res1.data);
+    console.log(res2.data);
+    return !(res1).data && !(res2).data;
   }
 
 
