@@ -23,8 +23,8 @@ export class ProfileController {
     return this.profileService.getMyAnswers(id);
   }
 
-  // @Get(':id/mystats')
-  // getMyStats(@Param('id') id: string) {
-  //   return this.profileService.getMyStats(id);
-  // }
+  @Get(':id/mystats')
+  getMyStats(@Param('id') id: string) {
+    return this.profileService.getMyStats(id);
+  }
 }
