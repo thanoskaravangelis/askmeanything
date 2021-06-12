@@ -53,4 +53,22 @@ export class UsersService {
     const user = await this.manager.findOne(User,userid,{relations:["answers"]});
     return user.answers;
   }
+
+  async findUserByUsernameandPassword(username: string): Promise< User | undefined > {
+    const user = await this.manager.createQueryBuilder()
+      .select("user")
+      .from(User, "user")
+      .where("user.username = :usrnm", {usrnm: username})
+      .getOne();
+    return user;
+  }
+
+  async findUserByEmail(email:string): Promise< User | undefined > {
+    const user = await this.manager.createQueryBuilder()
+      .select("user")
+      .from(User, "user")
+      .where("user.email = :email", {email: email})
+      .getOne();
+    return user;
+  }
 }

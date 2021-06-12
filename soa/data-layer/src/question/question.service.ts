@@ -19,7 +19,8 @@ export class QuestionService {
   }
 
   async findOne(id: number): Promise<Question> {
-    const question = await this.manager.findOne(Question, id);
+    let question = null;
+    await this.manager.findOne(Question, id);
     if (!question) throw new NotFoundException('Question ${id} not found.');
     return question;
   }

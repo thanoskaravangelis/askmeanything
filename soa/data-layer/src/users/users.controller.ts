@@ -43,4 +43,14 @@ export class UsersController {
   findMyAnswers(@Param('id') id : string) {
     return this.usersService.findMyAnswers(+id);
   }
+
+  @Get('verify/:user')
+  findForAuth(@Param('user') user : string) {
+    return this.usersService.findUserByUsernameandPassword(user);
+  }
+
+  @Get('verifymail/:email')
+  findForMail(@Param('email') email:string) {
+    return this.usersService.findUserByEmail(email);
+  }
 }
