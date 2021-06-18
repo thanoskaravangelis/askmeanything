@@ -1,6 +1,7 @@
 import { Controller, Body, Patch, Param, Get } from "@nestjs/common";
 import { ProfileService } from './profile.service';
 import axios from "axios";
+import { UpdateUserDto } from "src/users/dto/update-user.dto";
 
 axios.defaults.baseURL = 'http://localhost:3030';
 
@@ -9,7 +10,7 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService) { }
 
   @Patch(':id/edit')
-  updateUser(@Param('id') id: string, @Body() body) {
+  updateUser(@Param('id') id: string, body:UpdateUserDto ) {
     return this.profileService.updateUser(id, body);
   }
 

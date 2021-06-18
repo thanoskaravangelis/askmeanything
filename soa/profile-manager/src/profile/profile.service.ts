@@ -1,12 +1,13 @@
 import { BadRequestException, Body, Injectable } from "@nestjs/common";
 import axios from "axios";
+import { UpdateUserDto } from "src/users/dto/update-user.dto";
 
 axios.defaults.baseURL = 'http://localhost:3030';
 
 @Injectable()
 export class ProfileService {
 
-  updateUser(id: string, @Body() body) {
+  updateUser(id: string, body: UpdateUserDto ) {
     const requestUrl = `/users/${id}`;
     return axios.patch(requestUrl, body).then((response) => {return response.data;},
     () => {
