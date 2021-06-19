@@ -14,13 +14,24 @@ export class QuestionService {
     return this.manager.save(question);
   }
 
-  async findAll(): Promise<Question[]> {
-    return this.manager.find(Question);
+  async findAll(params): Promise<Question[]> {
+    let relations = [];
+    if(params.user) { relations.push('user'); }
+    if(params.answers) { relations.push('answers'); }
+    if(params.keywords) { relations.push('keywords'); relations.push('keywords.keyword');}
+    return this.manager.find(Question,{relations : relations});
   }
 
-  async findOne(id: number): Promise<Question> {
-    let question = null;
-    await this.manager.findOne(Question, id);
+  async findOne(params): Promise<Question> {
+    let relations = [];
+    let id;
+    if(params.user) { relations.push('user'); }
+    if(params.id) { id = params.id; }
+    if(params.answers) { relations.push('answers'); }
+    if(params.answersUser) { relations.push('answers.user'); }
+    if(params.answersUpvotes) { relations.push('answers.votes'); }
+    if(params.keywords) { relations.push('keywords'); relations.push('keywords.keyword');}
+    const question = await this.manager.findOne(Question, id, {relations : relations});
     if (!question) throw new NotFoundException('Question ${id} not found.');
     return question;
   }
