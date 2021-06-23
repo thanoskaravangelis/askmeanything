@@ -1,4 +1,4 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Question} from "../../question/entities/question.entity";
 import {Answer} from "../../answer/entities/answer.entity";
 import {UserAnswerVote} from "../../user-answer-vote/entities/user-answer-vote.entity";
@@ -40,6 +40,9 @@ export class User {
 
   @Column({nullable:true})
   country: string;
+
+  @CreateDateColumn()
+  createdAt;
 
   @OneToMany( type => Question, question => question.user)
   questions: Question[];

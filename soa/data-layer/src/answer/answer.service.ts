@@ -14,11 +14,21 @@ export class AnswerService {
     return this.manager.save(answer);
   }
 
-  async findAll(): Promise<Answer[]> {
+  async findAll(params): Promise<Answer[]> {
+    let relations = [];
+    if(params.user) { relations.push('user'); }
+    if(params.question) { relations.push('question'); }
+    if(params.votes) { relations.push('votes'); }
     return this.manager.find(Answer);
   }
 
-  async findOne(id: number): Promise<Answer> {
+  async findOne(params): Promise<Answer> {
+    let relations = [];
+    let id;
+    if(params.user) { relations.push('user'); }
+    if(params.id) { id = params.id; }
+    if(params.question) { relations.push('question'); }
+    if(params.votes) { relations.push('votes'); }
     const answer = await this.manager.findOne(Answer,id);
     if(!answer) throw new NotFoundException(`Answer #${id} not found`);
     return answer;
