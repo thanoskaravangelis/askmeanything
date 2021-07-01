@@ -50,4 +50,22 @@ export class AnswerService {
       await manager.delete(Answer, id);
     });
   }
+
+  //other
+
+  getAnswersPerDay(): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."answer"."createdAt",'FMDay') as day,COUNT(*) as answers
+      FROM public."answer"
+      GROUP BY day`
+    );
+  }
+
+  getAnswersPerMonth(): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."answer"."createdAt",'YYYY-MM') as month,COUNT(*) as answers
+      FROM public."answer"
+      GROUP BY month`
+    );
+  }
 }

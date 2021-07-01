@@ -22,6 +22,16 @@ export class AnswerController {
     return this.answerService.findOne(params);
   }
 
+  @Get('daily/stats')
+  getANswerDaily() {
+    return this.answerService.getAnswersPerDay();
+  }
+
+  @Get('monthly/stats')
+  getQuestMonthly() {
+    return this.answerService.getAnswersPerMonth();
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAnswerDto: UpdateAnswerDto) {
     return this.answerService.update(+id, updateAnswerDto);
