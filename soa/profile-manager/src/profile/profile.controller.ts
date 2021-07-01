@@ -28,4 +28,34 @@ export class ProfileController {
   getMyStats(@Param('id') id: string) {
     return this.profileService.getMyStats(id);
   }
+
+  @Get('questionsperkeyword/:name')
+  getQuestionsPerKeyword(@Param('name') name:string) {
+    return this.profileService.getQuestionsPerKeyword(name);
+  }
+
+  @Get('questionsperkeywordstats')
+  getQuestionsPerKeywordStats() {
+    return this.profileService.getQuestionsPerKeywordStats();
+  }
+
+  @Get('questions/daily/stats')
+  getQuestionsDaily() {
+    return this.profileService.getQuestionsPerDay();
+  }
+
+  @Get('questions/monthly/stats')
+  getQuestionsMonthly() {
+    return this.profileService.getQuestionsPerMonth();
+  }
+
+  @Get('answers/daily/stats')
+  getAnswersDaily() {
+    return this.profileService.getAnswersPerDay();
+  }
+
+  @Get('answers/monthly/stats')
+  getAnswersMonthly() {
+    return this.profileService.getAnswersPerMonth();
+  }
 }
