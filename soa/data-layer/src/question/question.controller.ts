@@ -22,6 +22,16 @@ export class QuestionController {
     return this.questionService.findOne(params);
   }
 
+  @Get('daily/stats')
+  getQuestDaily() {
+    return this.questionService.getQuestionsPerDay();
+  }
+
+  @Get('monthly/stats')
+  getQuestMonthly() {
+    return this.questionService.getQuestionsPerMonth();
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
     return this.questionService.update(+id, updateQuestionDto);

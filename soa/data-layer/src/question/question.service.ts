@@ -52,4 +52,21 @@ export class QuestionService {
       await manager.delete(Question, id);
     });
   }
+
+  //other
+  getQuestionsPerDay(): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."question"."createdAt",'FMDay') as day,COUNT(*) as questions
+      FROM public."question"
+      GROUP BY day`
+    );
+  }
+
+  getQuestionsPerMonth(): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."question"."createdAt",'YYYY-MM') as month,COUNT(*) as questions
+      FROM public."question"
+      GROUP BY month`
+    );
+  }
 }
