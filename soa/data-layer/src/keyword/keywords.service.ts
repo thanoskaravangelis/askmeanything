@@ -4,6 +4,8 @@ import { UpdateKeywordDto } from './dto/update-keyword.dto';
 import { Keyword } from "./entities/keyword.entity";
 import {InjectEntityManager} from "@nestjs/typeorm";
 import {EntityManager} from "typeorm";
+import { Question } from "src/question/entities/question.entity";
+import { QuestionService } from "src/question/question.service";
 @Injectable()
 export class KeywordsService {
 
@@ -39,5 +41,40 @@ export class KeywordsService {
       if (!keyword) throw new NotFoundException(`Keyword #${id} not found`);
       await manager.delete(Keyword, id);
     });
+  }
+
+  //other
+  async findOneByName(name:string): Promise<any> {
+    const keyword = await this.manager.findOne(Keyword,{name:name});
+    if (!keyword) 
+      return {};
+    else
+      return keyword;
+  }
+
+  async findQuestionsPerKeyword(params,name:string): Promise<any> {
+    let relations = [];
+    if(params.questions) { relations.push('questions'); relations.push('questions.question'); }
+    if(params.questionsKeywords) { relations.push('questions.question.keywords'); relations.push('questions.question.keywords.keyword'); }
+    if(params.questionsUser) { relations.push('questions.question.user'); }
+    if(params.questionsAnswers) { relations.push('questions.question.answers'); }
+    const questions = await this.manager.findOne(Keyword,{name:name} ,{relations : relations});
+    if(!questions)
+      return {};
+    else  
+      return questions;
+  }
+
+  async findQuestionsPerKeywordsStats(params): Promise<any> {
+    let relations = [];
+    if(params.questions) { relations.push('questions'); relations.push('questions.question'); }
+    if(params.questionsKeywords) { relations.push('questions.question.keywords'); relations.push('questions.question.keywords.keyword'); }
+    if(params.questionsUser) { relations.push('questions.question.user'); }
+    if(params.questionsAnswers) { relations.push('questions.question.answers'); }
+    const keywords = await this.manager.find(Keyword,{relations : relations});
+    if(!keywords)
+      return {};
+    else  
+      return keywords;
   }
 }

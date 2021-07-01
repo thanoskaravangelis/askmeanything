@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { KeywordsService } from './keywords.service';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
 import { UpdateKeywordDto } from './dto/update-keyword.dto';
@@ -20,6 +20,21 @@ export class KeywordsController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.keywordsService.findOne(+id);
+  }
+
+  @Get('byname/:name')
+  findOneByName(@Param('name') name: string) {
+    return this.keywordsService.findOneByName(name);
+  }
+
+  @Get('questions/:name')
+  findQuestionsPerKeyword(@Param('name') name:string, @Query() params:any){
+    return this.keywordsService.findQuestionsPerKeyword(params,name);
+  }
+
+  @Get('stats/questionsperkeyword')
+  findQuestionsPerKeywordStats(@Query() params : any) {
+    return this.keywordsService.findQuestionsPerKeywordsStats(params);
   }
 
   @Patch(':id')
