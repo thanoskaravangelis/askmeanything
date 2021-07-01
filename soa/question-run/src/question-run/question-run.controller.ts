@@ -28,7 +28,7 @@ export class QuestionRunController {
     return this.questionRunService.vote(body);
   }
 
-  @Delete('deletevote')
+  @Delete('deletevote/:id')
   deleteVote(@Param('id') id :string ) {
     return this.questionRunService.removeVote(+id);
   }
