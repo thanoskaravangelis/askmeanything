@@ -13,6 +13,11 @@ export class QuestionManController {
     return this.questionManService.getQuestions(start, end);
   }
 
+  @Get('keywords')
+  getKeywords(@Query('start') start:number, @Query('end') end:number) {
+    return this.questionManService.getKeywords(start, end);
+  }
+  
   @Get('question/:id')
   displayQuestion(@Param('id') id:string) {
     return this.questionManService.displayQuestion(+id);

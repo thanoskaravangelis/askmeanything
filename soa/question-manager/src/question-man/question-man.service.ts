@@ -39,12 +39,26 @@ export class QuestionManService {
         });
     }
 
-    createKeyword(body: CreateKeywordDto) {
-        const requestUrl = 'keywords';
-        return axios.post(requestUrl,body).then((response) => {return response.data;})
+    getKeywords(start,end){
+        const requestUrl='keywords';
+        return axios.get(requestUrl).then((response) => {return paginate(response.data ,{'start':start,'end': end});})
         .catch(() => {
             throw new  BadRequestException("Could not fetch data from the Data Layer.");
         });
+    }
+
+    async createKeyword(body: CreateKeywordDto) {
+        const requestUrl = 'keywords';
+        let name = body.name;
+        let resp = await axios.get(requestUrl+`/byname/${name}`);
+        if(resp.data.name)
+            return resp.data;
+        else {
+            return axios.post(requestUrl,body).then((response) => {return response.data;})
+            .catch(() => {
+                throw new  BadRequestException("Could not fetch data from the Data Layer.");
+            });
+        }
     }
 
     createQuestion(body : CreateQuestionDto) {
