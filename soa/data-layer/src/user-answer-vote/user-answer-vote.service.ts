@@ -41,5 +41,16 @@ export class UserAnswerVoteService {
       await manager.delete(UserAnswerVote, id);
     });
   }
+ 
+  //More queries
+  async findVoteByUserAndAnswer(userId:number ,answerId:number) : Promise<UserAnswerVote> {
+    const vote = await this.manager.findOne(UserAnswerVote,{
+      where: {
+        userId: userId,
+        answerId : answerId
+      }
+    });
+    return vote;
+  }
 
 }

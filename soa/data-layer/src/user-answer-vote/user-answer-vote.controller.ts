@@ -22,6 +22,11 @@ export class UserAnswerVoteController {
     return this.userAnswerVoteService.findOne(+id);
   }
 
+  @Get('onebyIds/:userId/:answerId')
+  findOneByIds(@Param('userId') userId : string, @Param('answerId') answerId : string) {
+    return this.userAnswerVoteService.findVoteByUserAndAnswer(+userId,+answerId);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserAnswerVoteDto: UpdateUserAnswerVoteDto) {
     return this.userAnswerVoteService.update(+id, updateUserAnswerVoteDto);
