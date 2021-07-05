@@ -7,7 +7,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UsersService } from './users/users.service';
 
 @Module({
-  imports: [AuthModule, UsersModule, UsersService, TypeOrmModule.forRoot()],
+  imports: [AuthModule, UsersModule, UsersService],
   controllers: [AppController],
   providers: [AppService],
 })

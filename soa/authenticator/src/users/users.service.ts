@@ -10,7 +10,6 @@ const dataUrl = 'http://localhost:3030/';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectEntityManager() private manager: EntityManager) {}
 
   async create(createUserDto: CreateUserDto): Promise<any> {
       const isOk = await this.validSignUp(createUserDto.username, createUserDto.email);
@@ -30,16 +29,4 @@ export class UsersService {
     console.log(res2.data);
     return !(res1).data && !(res2).data;
   }
-
-
-  /*async findAll(): Promise<Any[]> {
-    return {};
-  }
-
-  async findOne(id: number): Promise<Any> {
-    const user = await this.manager.findOne(User, id);
-    if(!user) throw new NotFoundException(`User #${id} not found`);
-    return user;
-  }*/
-
 }
