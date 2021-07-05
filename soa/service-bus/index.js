@@ -19,6 +19,9 @@ const TotalConnections = 20
 
 const urls = {
   auth: "http://localhost:3001",
+  questionman: "http://localhost:3002",
+  questionrun: "http://localhost:3003",
+  profileman: "http://localhost:3004"
 }
 
 
@@ -39,15 +42,63 @@ const pool = require('redis-connection-pool')('myRedisPool', {
 console.log('connected to redis');
 
 
+async function checkProcess(req,res) {
 
-/* main function to receive the requests  */
-async function requestProcess(req, res) {
+  let link,url;
+  if(req.body.url.startsWith("http://localhost:3001")) {
+    link = urls.auth;
+    dest='auth';
+    url = req.body.url.split(':3002/')[1];
+  }
+  if(req.body.url.startsWith("http://localhost:3002")) {
+    link = urls.questionman;
+    dets='questionman';
+    url = req.body.url.split(':3002/')[1];
+  }
+  if(req.body.url.startsWith("http://localhost:3003")) {
+    link = urls.questionrun;
+    dest = 'questionrun';
+    url = req.body.url.split(':3003/')[1];
+  }
+  if(req.body.url.startsWith("http://localhost:3004")) {
+    link = urls.profileman;
+    dest = 'profileman';
+    url = req.body.url.split(':3004/')[1];
+  }
+
+  const params = {
+    url : url
+  }
+
+  console.log(params.url);
+
+  let resp = {
+    exists : false,
+    needsAuth: false
+  }
+
+  await axios.get(link+'/allow', { params }).then( (response) => {
+    resp.exists = response.data.exists;
+    resp.needsAuth = response.data.needsAuth;
+  }).catch(() => {
+    res.status(400).send("Bad request, could not identify url.");
+  });
+
+  if(resp.exists === false) {
+    res.status(404).send("Service url not found.");
+  } else {
+    requestProcess(req,res,dest);
+  }
+}
+
+/* main function to receive the requests */
+async function requestProcess(req, res, dest) {
 
   const func = methods[req.body.method] || null;
   if (!func) return res.status(405).send('Method not supported');
   const url = req.body.url;
   const body = req.body.req_data || null; 
-  const dest_service = url.split('/')[0];
+  const dest_service = dest;
   if (!urls[dest_service]) return res.status(404).send('Service not found.');
 
   pool.hget('bus', 'messages', async (err, data) => {
@@ -79,7 +130,7 @@ async function requestProcess(req, res) {
         const subscribers = JSON.parse(data);
         let service_available = false;
         for (let i = 0; i < subscribers.length; i++) {
-          if (subscribers[i] === (newMessage.targetService)) {
+          if (subscribers[i] === (urls[newMessage.targetService])) {
             service_available = true;
             break;
           }
@@ -87,7 +138,7 @@ async function requestProcess(req, res) {
         if (!service_available) {
           return res.status(400).send('Service is temporalily down.');
         }
-        func(urls[dest_service] + url, body)
+        func(url, body)
         .then(response => {
           console.log('Sent response.');
           return res.send(response.data);
@@ -102,7 +153,7 @@ async function requestProcess(req, res) {
 
 
 app.post('/', cors(corsOptions), (req, res) => {
-  return requestProcess(req, res);
+  return checkProcess(req, res);
 });
 
 
