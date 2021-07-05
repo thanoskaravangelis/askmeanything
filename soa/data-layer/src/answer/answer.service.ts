@@ -68,4 +68,5 @@ export class AnswerService {
       GROUP BY month`
     );
   }
+
 }
