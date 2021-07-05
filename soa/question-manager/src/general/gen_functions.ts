@@ -1,26 +1,25 @@
-import { BadRequestException } from "@nestjs/common";
+import { BadRequestException, UnauthorizedException } from "@nestjs/common";
 import axios from "axios";
+import { jwtConstants } from "./constants";
 const authUrl = 'http://localhost:3001';
 
-export async function verify(req: any) : Promise<any> {
-    const headers = req['myHeaders'];
+export function verify(headers: any) {
     let token = '';
-    headers.forEach((item: any) => {
-        if (item.startsWith('Bearer')) {
-          token = item.slice(7);
-        }
-    });
-
-    const isLogged = (token: any) => {
-        const params = { 
-            url: authUrl+'more',
-        };
-        const headers = {
-            "Authorization": `Bearer ${token}`,
-        };
-        //console.log(`get from ${params.url} with header ${headers.Authorization}`)
-        return axios.post('http://localhost:3010', {}, { params, headers });
+    let item = headers["authorization"];
+    if (item.startsWith('Bearer')) {
+        token = item.slice(7);
     }
+
+    let id;
+    return axios.get(authUrl+'/auth/whoami',{headers : { Authorization : `Bearer ${token}`}})
+    .then((response) => { 
+        id = response.data.id;
+        console.log(`Authorized user with id: ${id}.`);
+        return response.data.id; 
+    })
+    .catch(() => {
+        throw new  UnauthorizedException("Could not verify authorization token.");
+    });
 }
 
 export const paginate = (res, params) => {
