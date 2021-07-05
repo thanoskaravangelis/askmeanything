@@ -126,4 +126,19 @@ export class ProfileService {
     });
   }
 
+  getQuestionPerMonthAnalytics(month: string,year:string) {
+    const requestUrl = 'question/monthly/analytics/'+year+'/'+month;
+    return axios.get(requestUrl).then((response) => {return response.data;})
+    .catch(() => {
+        throw new  BadRequestException("Could not fetch data from the Data Layer.");
+    });
+  }
+
+  getQuestInDateSpan(startDate:string, endDate:string) {
+    const requestUrl = 'question/from/'+startDate+'/to/'+endDate;
+    return axios.get(requestUrl).then((response) => {return response.data;})
+    .catch(() => {
+        throw new  BadRequestException("Could not fetch data from the Data Layer.");
+    });
+  }
 }

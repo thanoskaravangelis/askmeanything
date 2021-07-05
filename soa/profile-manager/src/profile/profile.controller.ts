@@ -58,4 +58,14 @@ export class ProfileController {
   getAnswersMonthly() {
     return this.profileService.getAnswersPerMonth();
   }
+
+  @Get('questions/monthly/analytics/:year/:month')
+  getQuestionsMonthlyAnalytics(@Param('year') year:string,@Param('month') month:string) {
+    return this.profileService.getQuestionPerMonthAnalytics(month,year);
+  }
+
+  @Get('questions/from/:startDate/to/:endDate')
+  getQuestionsSpan(@Param('startDate') startDate:string, @Param('endDate') endDate:string) {
+    return this.profileService.getQuestInDateSpan(startDate,endDate);
+  }
 }
