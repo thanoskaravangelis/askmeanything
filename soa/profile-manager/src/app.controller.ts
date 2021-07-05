@@ -6,7 +6,12 @@ export class AppController {
   constructor(private readonly appService: AppService) { }
 
   @Get()
-  getHello(@Query() params: any): boolean {
-    return this.appService.getHello(params);
+  listEndpoints() {
+    return this.appService.listEndpoints();
+  }
+
+  @Get('allow')
+  isAllowed(@Query() params: any) {
+    return this.appService.isAllowed(params);
   }
 }
