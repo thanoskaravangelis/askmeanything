@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Delete, Param, Query } from '@nestj
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { start } from 'repl';
 
 @Controller('question')
 export class QuestionController {
@@ -30,6 +31,16 @@ export class QuestionController {
   @Get('monthly/stats')
   getQuestMonthly() {
     return this.questionService.getQuestionsPerMonth();
+  }
+
+  @Get('monthly/analytics/:year/:month')
+  getQuestMonthlyAnalytics(@Param('month') month:string, @Param('year') year:string) {
+    return this.questionService.getQuestionsPerMonthAnalytics(month, year);
+  }
+
+  @Get('from/:startDate/to/:endDate')
+  getQuestInDateSpan(@Param('startDate') startDate: string,@Param('endDate') endDate : string) {
+    return this.questionService.getQuestionsInDateSpan(startDate, endDate)
   }
 
   @Patch(':id')

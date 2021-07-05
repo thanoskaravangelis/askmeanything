@@ -3,7 +3,7 @@ import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import {Question} from "./entities/question.entity";
 import {InjectEntityManager} from "@nestjs/typeorm";
-import {EntityManager} from "typeorm";
+import {EntityManager, LessThan, LessThanOrEqual, MoreThan, MoreThanOrEqual, Raw} from "typeorm";
 
 @Injectable()
 export class QuestionService {
@@ -68,5 +68,29 @@ export class QuestionService {
       FROM public."question"
       GROUP BY month`
     );
+  }
+
+  async getQuestionsPerMonthAnalytics(month:string,year:string): Promise<any> {
+    
+    const questions = await this.manager.find(Question, { relations : ['user', 'answers','keywords','keywords.keyword'] ,
+    where : 
+      { createdAt: Raw(alias =>`${alias} >= :date1 AND ${alias} <= :date2`, { date1 : year+'-'+month+'-01' , date2: year+'-'+month+'-31'}) }
+    });
+    
+    if(!questions)  
+      return {};
+    else
+      return questions;
+  }
+
+  async getQuestionsInDateSpan(startDate:string, endDate:string) : Promise<any> {
+    const questions = await this.manager.find(Question, { relations : ['user', 'answers','keywords','keywords.keyword'] , 
+    where : { createdAt: Raw(alias =>`${alias} >= :date1 AND ${alias} <= :date2`, { date1 : startDate , date2: endDate})  }
+    });
+
+    if(!questions)  
+      return {};
+    else
+      return questions;
   }
 }
