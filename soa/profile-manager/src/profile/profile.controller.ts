@@ -1,4 +1,4 @@
-import { Controller, Body, Patch, Param, Get } from "@nestjs/common";
+import { Controller, Body, Patch, Param, Request, Get } from "@nestjs/common";
 import { ProfileService } from './profile.service';
 import axios from "axios";
 import { UpdateUserDto } from "src/users/dto/update-user.dto";
@@ -10,23 +10,23 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService) { }
 
   @Patch(':id/edit')
-  updateUser(@Param('id') id: string, body:UpdateUserDto ) {
-    return this.profileService.updateUser(id, body);
+  updateUser(@Param('id') id: string, @Body() body:UpdateUserDto,@Request() req:any ) {
+    return this.profileService.updateUser(req.headers, +id, body);
   }
 
   @Get(':id/myquestions')
-  getMyQuestions(@Param('id') id: string) {
-    return this.profileService.getMyQuestions(id);
+  getMyQuestions(@Param('id') id: string,@Request() req:any) {
+    return this.profileService.getMyQuestions(req.headers,+id);
   }
 
   @Get(':id/myanswers')
-  getMyAnswers(@Param('id') id: string) {
-    return this.profileService.getMyAnswers(id);
+  getMyAnswers(@Param('id') id: string,@Request() req:any) {
+    return this.profileService.getMyAnswers(req.headers, +id);
   }
 
   @Get(':id/mystats')
-  getMyStats(@Param('id') id: string) {
-    return this.profileService.getMyStats(id);
+  getMyStats(@Param('id') id: string,@Request() req:any) {
+    return this.profileService.getMyStats(req.headers, +id);
   }
 
   @Get('questionsperkeyword/:name')
@@ -34,7 +34,7 @@ export class ProfileController {
     return this.profileService.getQuestionsPerKeyword(name);
   }
 
-  @Get('questionsperkeywordstats')
+  @Get('questions/perkeyword/stats')
   getQuestionsPerKeywordStats() {
     return this.profileService.getQuestionsPerKeywordStats();
   }

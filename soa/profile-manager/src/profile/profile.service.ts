@@ -1,5 +1,6 @@
-import { BadRequestException, Body, Injectable } from "@nestjs/common";
+import { BadRequestException, Body, Injectable, UnauthorizedException } from "@nestjs/common";
 import axios from "axios";
+import { verify } from "src/general/gen_functions";
 import { UpdateUserDto } from "src/users/dto/update-user.dto";
 
 axios.defaults.baseURL = 'http://localhost:3030';
@@ -7,52 +8,68 @@ axios.defaults.baseURL = 'http://localhost:3030';
 @Injectable()
 export class ProfileService {
 
-  updateUser(id: string, body: UpdateUserDto ) {
-    const requestUrl = `/users/${id}`;
-    return axios.patch(requestUrl, body).then((response) => {return response.data;},
-    () => {
-      throw new BadRequestException("Could not fetch data from the Data Layer.");
-    });
+  async updateUser(headers:any, userid: number, body: UpdateUserDto ) {
+    let id : number = await verify(headers);
+  
+    if(id === userid) {
+      const requestUrl = `/users/${userid}`;
+      return axios.patch(requestUrl, body).then((response) => {console.log(`Updated user ${userid}.`); return response.data;},
+      () => {
+        throw new BadRequestException("Could not fetch data from the Data Layer.");
+      });
+    }else{
+      throw new UnauthorizedException("Unauthorized action.");
+    }
   }
 
-  getMyQuestions(id:string) {
-    const requestUrl = `/users/${id}/myquestions`;
-    return axios.get(requestUrl).then((response) => {return response.data;}
+  async getMyQuestions(headers:any, userid:number) {
+    let id : number = await verify(headers);
+
+    const params = {'questions' : true, 'id' : userid };
+
+    const requestUrl = `/users/one`;
+    return axios.get(requestUrl, {params}).then((response) => {return response.data;}
     ,() => {
       throw new BadRequestException("Could not fetch data from the Data Layer.");
     });
   }
 
-  getMyAnswers(id:string) {
-    const requestUrl = `users/${id}/myanswers`;
-    return axios.get(requestUrl).then((response) => {return response.data;}
+  async getMyAnswers(headers:any, userid:number) {
+    let id : number = await verify(headers);
+
+    const params = {'answers' : true, 'id' : userid };
+
+    const requestUrl = `users/one`;
+    return axios.get(requestUrl,{ params }).then((response) => {return response.data;}
     ,() => {
       throw new BadRequestException("Could not fetch data from the Data Layer.");
     });
   }
 
-  async getMyStats(id:string) {
-    const requestUrl1 = `users/${id}/myquestions`;
-    const requestUrl2 = `users/${id}/myanswers`;
+  async getMyStats(headers:any, userid:number) {
+    let id : number = await verify(headers);
 
-    const totalq = await axios.get(requestUrl1);
+      const requestUrl1 = `users/${userid}/myquestions`;
+      const requestUrl2 = `users/${userid}/myanswers`;
 
-    const answers =  await axios.get(requestUrl2);
+      const totalq = await axios.get(requestUrl1);
 
-    if(!totalq.data) {
-      console.log("Bad request in total questions.")
-      throw new BadRequestException("Could not fetch data from the Data Layer.")
-    }
+      const answers =  await axios.get(requestUrl2);
 
-    if(!answers.data) {
-      console.log("Bad request in total answers.")
-      throw new BadRequestException("Could not fetch data from the Data Layer.")
-    }
+      if(!totalq.data) {
+        console.log("Bad request in total questions.")
+        throw new BadRequestException("Could not fetch data from the Data Layer.")
+      }
 
-    return {
-      'totalQuestions' : totalq.data.length , 
-      'totalAnswers' : answers.data.length
-    }
+      if(!answers.data) {
+        console.log("Bad request in total answers.")
+        throw new BadRequestException("Could not fetch data from the Data Layer.")
+      }
+
+      return {
+        'totalQuestions' : totalq.data.length , 
+        'totalAnswers' : answers.data.length
+      }
   }
 
   getQuestionsPerKeyword(name:string) {
@@ -62,7 +79,7 @@ export class ProfileService {
         questionsUser: true,
         questionsKeywords : true,
         questionsAnswers: true,
-    };
+    }; 
     return axios.get(requestUrl,{ params }).then((response) => {return response.data;})
     .catch(() => {
         throw new  BadRequestException("Could not fetch data from the Data Layer.");
@@ -81,7 +98,6 @@ export class ProfileService {
     .catch(() => {
         throw new  BadRequestException("Could not fetch data from the Data Layer.");
     });
-    
     let arr = [];
     keywords.forEach( (obj) => {
       if(obj.questions) {

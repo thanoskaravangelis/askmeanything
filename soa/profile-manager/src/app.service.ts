@@ -14,7 +14,7 @@ export class AppService {
       authorize: false
     },
     {
-      regex : new RegExp('profile/questionsperkeyword/stats'),
+      regex : new RegExp('profile/questions/perkeyword/stats'),
       valid: true,
       authorize: false
     },
