@@ -23,7 +23,7 @@ export class AnswerController {
   }
 
   @Get('daily/stats')
-  getANswerDaily() {
+  getAnswerDaily() {
     return this.answerService.getAnswersPerDay();
   }
 

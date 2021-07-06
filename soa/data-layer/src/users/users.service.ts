@@ -20,8 +20,24 @@ export class UsersService {
     return this.manager.find(User);
   }
 
-  async findOne(id: number): Promise<User> {
-    const user = await this.manager.findOne(User, id);
+  async findOne(userid: number,params:any): Promise<User> {
+    let relations = [];
+    let id;
+    if(params.questions) { 
+      relations.push('questions'); 
+      relations.push('questions.user');
+      relations.push('questions.keywords');
+      relations.push('questions.answers');
+      relations.push('questions.keywords.keyword');
+    }
+    if(params.answers) {
+      relations.push('answers');
+      relations.push('answers.question');
+      relations.push('answers.votes');
+      relations.push('answers.user');
+    }
+    if(params.id) { id = params.id; }
+    const user = await this.manager.findOne(User, id, {relations : relations});
     if(!user) throw new NotFoundException(`User #${id} not found`);
     return user;
   }
@@ -46,12 +62,19 @@ export class UsersService {
   //additional operations
   async findMyQuestions(userid: number): Promise<Question[]> {
     const user = await this.manager.findOne(User,userid,{ relations: ["questions"]});
-    return user.questions;
+    if(!user.questions) {
+      return [];
+    }
+    else 
+      return user.questions;
   }
 
   async findMyAnswers(userid:number): Promise<Answer[]> {
     const user = await this.manager.findOne(User,userid,{relations:["answers"]});
-    return user.answers;
+    if(!user.answers)
+      return [];
+    else 
+      return user.answers;
   }
 
   async findUserByUsernameandPassword(username: string): Promise< User | undefined > {

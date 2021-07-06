@@ -19,7 +19,7 @@ export class AnswerService {
     if(params.user) { relations.push('user'); }
     if(params.question) { relations.push('question'); }
     if(params.votes) { relations.push('votes'); }
-    return this.manager.find(Answer);
+    return this.manager.find(Answer, {relations : relations});
   }
 
   async findOne(params): Promise<Answer> {
@@ -29,7 +29,7 @@ export class AnswerService {
     if(params.id) { id = params.id; }
     if(params.question) { relations.push('question'); }
     if(params.votes) { relations.push('votes'); }
-    const answer = await this.manager.findOne(Answer,id);
+    const answer = await this.manager.findOne(Answer,id ,{relations : relations});
     if(!answer) throw new NotFoundException(`Answer #${id} not found`);
     return answer;
   }
