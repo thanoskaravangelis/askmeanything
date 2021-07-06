@@ -44,7 +44,7 @@ console.log('connected to redis');
 
 async function checkProcess(req,res) {
 
-  let link,url;
+  let link,url,dest;
   if(req.body.url.startsWith("http://localhost:3001")) {
     link = urls.auth;
     dest='auth';
@@ -52,7 +52,7 @@ async function checkProcess(req,res) {
   }
   if(req.body.url.startsWith("http://localhost:3002")) {
     link = urls.questionman;
-    dets='questionman';
+    dest='questionman';
     url = req.body.url.split(':3002/')[1];
   }
   if(req.body.url.startsWith("http://localhost:3003")) {
@@ -85,7 +85,7 @@ async function checkProcess(req,res) {
   });
 
   if(resp.exists === false) {
-    res.status(404).send("Service url not found.");
+    return res.status(404).send("Service url not found.");
   } else {
     requestProcess(req,res,dest);
   }
@@ -97,8 +97,10 @@ async function requestProcess(req, res, dest) {
   const func = methods[req.body.method] || null;
   if (!func) return res.status(405).send('Method not supported');
   const url = req.body.url;
+  const method = req.body.method;
   const body = req.body.req_data || null; 
   const dest_service = dest;
+  console.log(dest_service);
   if (!urls[dest_service]) return res.status(404).send('Service not found.');
 
   pool.hget('bus', 'messages', async (err, data) => {
@@ -138,14 +140,27 @@ async function requestProcess(req, res, dest) {
         if (!service_available) {
           return res.status(400).send('Service is temporalily down.');
         }
-        func(url, body)
-        .then(response => {
-          console.log('Sent response.');
-          return res.send(response.data);
-        }).catch(err => {
-          console.log('Sent error.');
-          return res.status(err.response.data.statusCode).send(err.response.data);
-        })
+        console.log(req.headers);
+        if(method==='get' || method==='delete'){
+          return func(url,{headers: {'Authorization' : req.headers.authorization }} )
+          .then(response => {
+            console.log('Sent response.');
+            return res.send(response.data);
+          }).catch(err => {
+            console.log('Sent error.');
+            return res.status(err.response.data.statusCode).send(err.response.data);
+          })
+        }
+        else{
+          return func(url,body,{headers: {'Authorization' : req.headers.authorization }} )
+          .then(response => {
+            console.log('Sent response.');
+            return res.send(response.data);
+          }).catch(err => {
+            console.log('Sent error.');
+            return res.status(err.response.data.statusCode).send(err.response.data);
+          })
+        }
       })
     })
   })
