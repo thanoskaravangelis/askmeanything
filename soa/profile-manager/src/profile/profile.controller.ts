@@ -7,7 +7,12 @@ axios.defaults.baseURL = 'http://localhost:3030';
 
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly profileService: ProfileService) { }
+  constructor(private readonly profileService: ProfileService) {}
+
+  @Get(':id')
+  getUser(@Param('id') id:string) {
+    return this.profileService.getProfile(+id);
+  }
 
   @Patch(':id/edit')
   updateUser(@Param('id') id: string, @Body() body:UpdateUserDto,@Request() req:any ) {
