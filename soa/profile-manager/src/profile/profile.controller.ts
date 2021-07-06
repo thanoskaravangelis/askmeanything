@@ -1,4 +1,4 @@
-import { Controller, Body, Patch, Param, Request, Get } from "@nestjs/common";
+import { Controller, Body, Patch, Param, Request, Get, Delete } from "@nestjs/common";
 import { ProfileService } from './profile.service';
 import axios from "axios";
 import { UpdateUserDto } from "src/users/dto/update-user.dto";
@@ -17,6 +17,11 @@ export class ProfileController {
   @Patch(':id/edit')
   updateUser(@Param('id') id: string, @Body() body:UpdateUserDto,@Request() req:any ) {
     return this.profileService.updateUser(req.headers, +id, body);
+  }
+
+  @Delete(':id')
+  deleteUser(@Param('id') id:string){
+    return this.profileService.deleteProfile(+id);
   }
 
   @Get(':id/myquestions')

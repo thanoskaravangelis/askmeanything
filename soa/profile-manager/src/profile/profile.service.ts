@@ -17,6 +17,14 @@ export class ProfileService {
     });
   }
 
+  async deleteProfile(userid:number) {
+    const requestUrl = `/users/${userid}`;
+    return axios.delete(requestUrl).then((response) => {console.log(`Deleted user ${userid}.`); return response.data;},
+    () => {
+      throw new BadRequestException("Could not fetch data from the Data Layer.");
+    });
+  }
+
   async updateUser(headers:any, userid: number, body: UpdateUserDto ) {
     let id : number = await verify(headers);
   

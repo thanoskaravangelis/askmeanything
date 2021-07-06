@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   private endpoints = [
     {
-      regex : new RegExp('profile/[1-9][0-9]*/(edit|myquestions|myanswers|mystats)'),
+      regex : new RegExp('profile/[1-9][0-9]*/(edit|myquestions|myanswers|mystats)?'),
       valid: true,
       authorize: true
     },
