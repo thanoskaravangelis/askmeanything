@@ -86,13 +86,19 @@ export class QuestionManService {
     }
 
     async createQuestion(headers:any, body : CreateQuestionDto) {
+        console.log(headers);
         let id:number = await verify(headers);
 
-        const requestUrl = 'question';
-        return axios.post(requestUrl,body).then((response) => {return response.data;})
-        .catch(() => {
-            throw new  BadRequestException("Could not fetch data from the Data Layer.");
-        });
+        if(id===body.user.id) {
+            const requestUrl = 'question';
+            return axios.post(requestUrl,body).then((response) => {return response.data;})
+            .catch(() => {
+                throw new  BadRequestException("Could not fetch data from the Data Layer.");
+            });
+        }
+        else {
+            throw new UnauthorizedException("Unauthorized action.");
+        }
     }
 
     async deleteQuestion(headers:any, questId:number) {
@@ -100,8 +106,13 @@ export class QuestionManService {
 
         const requestUrl = `question/${questId}`;
         const params = { 'id' : questId, 'user' : true };
-        const question = await axios.get(`question/one`,{ params }).then((response) => {return response.data;})
-        .catch(() => { throw new BadRequestException("Could not fetch data from the Data Layer.")});
+        const question = await axios.get(`question/one`,{ params })
+        .then((response) => {
+            return response.data;
+        })
+        .catch(() => { 
+            throw new BadRequestException("Could not fetch data from the Data Layer.")
+        });
         if(id==question.user.id) {
             console.log(`User with id ${id} has the right to delete the question.`);
             return axios.delete(requestUrl).then((response) => {return response.data;})

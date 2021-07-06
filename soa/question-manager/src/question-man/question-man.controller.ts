@@ -48,6 +48,4 @@ export class QuestionManController {
   deleteQuestion(@Param('id') id:string,@Request() req:any) {
     return this.questionManService.deleteQuestion(req.headers,+id);
   }
-
-
 }
