@@ -28,7 +28,7 @@ export class QuestionRunService {
 
     async editAnswer(headers:any, body: UpdateAnswerDto, ansid: number) {
         let id : number = await verify(headers);
-
+        
         const requestUrl = `answer/${ansid}`;
         const params = {
             id : ansid,
@@ -42,6 +42,7 @@ export class QuestionRunService {
         })
 
         if(userId == id) {
+            console.log(body);
             return axios.patch(requestUrl,body).then((response) => {return response.data;})
             .catch(() => {
                 throw new  BadRequestException("Could not fetch data from the Data Layer.");
