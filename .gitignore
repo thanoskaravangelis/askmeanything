@@ -8,6 +8,9 @@ authenticator/node_modules/
 # constants
 constants.ts
 
+# db 
+ormconfig.json
+
 soa/question-manager/ormconfig.json
 soa/question-run/ormconfig.json
 .idea/
