@@ -1,0 +1,20 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "karablv",
+  "password": "thanoos.!1",
+  "database": "askmeanything",
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "logging": true,
+  "migrations": ["dist/migration/*{.ts,.js}*"],
+  "cli" :{
+    "migrationsDir": "migration"
+  },
+  "ssl" :true,
+  "extra":{
+    "ssl" : {
+      "rejectUnauthorized" : false
+    }
+  }
+}
