@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -44,13 +45,18 @@ export class UsersController {
     return this.usersService.findMyAnswers(+id);
   }
 
-  @Get('verify/:user')
-  findForAuth(@Param('user') user : string) {
-    return this.usersService.findUserByUsernameandPassword(user);
-  }
-
   @Get('verifymail/:email')
   findForMail(@Param('email') email:string) {
     return this.usersService.findUserByEmail(email);
+  }
+}
+
+@Controller('users')
+export class Users2Controller{
+  constructor(private readonly usersService: UsersService) {}
+
+  @Get('verify/:user')
+  findForAuth(@Param('user') user : string) {
+    return this.usersService.findUserByUsernameandPassword(user);
   }
 }

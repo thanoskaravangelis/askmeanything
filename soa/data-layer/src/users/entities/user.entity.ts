@@ -2,6 +2,7 @@ import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn} fro
 import {Question} from "../../question/entities/question.entity";
 import {Answer} from "../../answer/entities/answer.entity";
 import {UserAnswerVote} from "../../user-answer-vote/entities/user-answer-vote.entity";
+import { Exclude } from "class-transformer";
 
 @Entity()
 export class User {
@@ -11,6 +12,7 @@ export class User {
   @Column({nullable:false, unique:true})
   username: string;
 
+  @Exclude({ toPlainOnly : true})
   @Column({nullable:false})
   password: string;
 
