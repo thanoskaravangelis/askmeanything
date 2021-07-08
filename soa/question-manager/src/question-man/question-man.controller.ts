@@ -48,4 +48,9 @@ export class QuestionManController {
   deleteQuestion(@Param('id') id:string,@Request() req:any) {
     return this.questionManService.deleteQuestion(req.headers,+id);
   }
+
+  @Delete('removekeywordquestion/:id')
+  deleteQuestionHasKeyword(@Param('id') id:string, @Request() req:any) {
+    return this.questionManService.removeQuestionKeyword(req.headers,+id);
+  }
 }
