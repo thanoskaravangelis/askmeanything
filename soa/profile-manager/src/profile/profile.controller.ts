@@ -10,8 +10,8 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
   @Get(':id')
-  getUser(@Param('id') id:string) {
-    return this.profileService.getProfile(+id);
+  getUser(@Param('id') id:string,@Request() req:any) {
+    return this.profileService.getProfile(req.headers,+id);
   }
 
   @Patch(':id/edit')
@@ -20,8 +20,8 @@ export class ProfileController {
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id:string){
-    return this.profileService.deleteProfile(+id);
+  deleteUser(@Param('id') id:string,@Request() req:any){
+    return this.profileService.deleteProfile(req.headers,+id);
   }
 
   @Get(':id/myquestions')
@@ -29,9 +29,9 @@ export class ProfileController {
     return this.profileService.getMyQuestions(req.headers,+id);
   }
 
-  @Get(':id/myanswers')
+  @Get(':id/myanswered')
   getMyAnswers(@Param('id') id: string,@Request() req:any) {
-    return this.profileService.getMyAnswers(req.headers, +id);
+    return this.profileService.getMyAnswered(req.headers, +id);
   }
 
   @Get(':id/mystats')

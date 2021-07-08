@@ -8,7 +8,8 @@ axios.defaults.baseURL = 'http://localhost:3030';
 @Injectable()
 export class ProfileService {
 
-  async getProfile(userid:number) {
+  async getProfile(headers:any,userid:number) {
+    let id : number = await verify(headers);
     const params = {"id" : userid}
     const requestUrl = `/users/one`;
     return axios.get(requestUrl, { params }).then((response) => {console.log(`Got user ${userid}.`); return response.data;},
@@ -17,12 +18,18 @@ export class ProfileService {
     });
   }
 
-  async deleteProfile(userid:number) {
-    const requestUrl = `/users/${userid}`;
-    return axios.delete(requestUrl).then((response) => {console.log(`Deleted user ${userid}.`); return response.data;},
-    () => {
-      throw new BadRequestException("Could not fetch data from the Data Layer.");
-    });
+  async deleteProfile(headers:any,userid:number) {
+    let id : number = await verify(headers);
+    if(id===userid) {
+      const requestUrl = `/users/${userid}`;
+      return axios.delete(requestUrl).then((response) => {console.log(`Deleted user ${userid}.`); return response.data;},
+      () => {
+        throw new BadRequestException("Could not fetch data from the Data Layer.");
+      });
+    }
+    else{
+      throw new UnauthorizedException("Unauthorized action.");
+    }
   }
 
   async updateUser(headers:any, userid: number, body: UpdateUserDto ) {
@@ -51,19 +58,33 @@ export class ProfileService {
     });
   }
 
-  async getMyAnswers(headers:any, userid:number) {
+  async getMyAnswered(headers:any, userid:number) {
     let id : number = await verify(headers);
 
-    const params = {'answers' : true, 'id' : userid };
+    const params = {'answers' : true, 'user' : true, 'keywords' : true };
 
-    const requestUrl = `users/one`;
-    return axios.get(requestUrl,{ params }).then((response) => {console.log(`Got user's ${userid} answers.`); return response.data;}
+    const requestUrl = `question`;
+    const questions = await axios.get(requestUrl,{ params }).then((response) => {console.log(`Got questions to be searched for user ${userid}'s answers.`); return response.data;}
     ,() => {
       throw new BadRequestException("Could not fetch data from the Data Layer.");
     });
+
+    let myanswered = [];
+
+    for(let i = 0; i < questions.length; i++) {
+      for(let j = 0; j < questions[i].answers.length; j++) {
+        if(questions[i].answers[j].userId == userid) {
+          myanswered.push(questions[i]);
+          break;
+        }
+      }
+    }
+
+    return myanswered;
   }
 
   async getMyStats(headers:any, userid:number) {
+      let id : number = await verify(headers);
 
       const requestUrl1 = `users/${userid}/myquestions`;
       const requestUrl2 = `users/${userid}/myanswers`;
