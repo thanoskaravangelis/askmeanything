@@ -17,7 +17,7 @@ export class QuestionService {
   async findAll(params): Promise<Question[]> {
     let relations = [];
     if(params.user) { relations.push('user'); }
-    if(params.answers) { relations.push('answers'); relations.push('answers.user');}
+    if(params.answers) { relations.push('answers'); relations.push('answers.user'); relations.push('answers.votes');}
     if(params.keywords) { relations.push('keywords'); relations.push('keywords.keyword');}
     return this.manager.find(Question,{relations : relations});
   }
