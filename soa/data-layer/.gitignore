@@ -2,9 +2,6 @@
 /dist
 /node_modules
 
-#db-conn
-ormconfig.json
-
 # Logs
 logs
 *.log

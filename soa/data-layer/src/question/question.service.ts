@@ -17,7 +17,7 @@ export class QuestionService {
   async findAll(params): Promise<Question[]> {
     let relations = [];
     if(params.user) { relations.push('user'); }
-    if(params.answers) { relations.push('answers'); }
+    if(params.answers) { relations.push('answers'); relations.push('answers.user');}
     if(params.keywords) { relations.push('keywords'); relations.push('keywords.keyword');}
     return this.manager.find(Question,{relations : relations});
   }
@@ -27,8 +27,7 @@ export class QuestionService {
     let id;
     if(params.user) { relations.push('user'); }
     if(params.id) { id = params.id; }
-    if(params.answers) { relations.push('answers'); }
-    if(params.answersUser) { relations.push('answers.user'); }
+    if(params.answers) { relations.push('answers'); relations.push('answers.user'); }
     if(params.answersUpvotes) { relations.push('answers.votes'); }
     if(params.keywords) { relations.push('keywords'); relations.push('keywords.keyword');}
     const question = await this.manager.findOne(Question, id, {relations : relations});
