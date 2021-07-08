@@ -48,7 +48,7 @@ async function checkProcess(req,res) {
   if(req.body.url.startsWith("http://localhost:3001")) {
     link = urls.auth;
     dest='auth';
-    url = req.body.url.split(':3002/')[1];
+    url = req.body.url.split(':3001/')[1];
   }
   if(req.body.url.startsWith("http://localhost:3002")) {
     link = urls.questionman;
@@ -78,8 +78,8 @@ async function checkProcess(req,res) {
   }
 
   await axios.get(link+'/allow', { params }).then( (response) => {
-    resp.exists = response.data.exists;
-    resp.needsAuth = response.data.needsAuth;
+    resp.exists = response.data.valid;
+    resp.needsAuth = response.data.authorize;
   }).catch(() => {
     res.status(400).send("Bad request, could not identify url.");
   });
@@ -140,15 +140,14 @@ async function requestProcess(req, res, dest) {
         if (!service_available) {
           return res.status(400).send('Service is temporalily down.');
         }
-        console.log(req.headers);
-        if(method==='get' || method==='delete'){
+        if(method=='get' || method=='delete'){
           return func(url,{headers: {'Authorization' : req.headers.authorization }} )
           .then(response => {
             console.log('Sent response.');
             return res.send(response.data);
           }).catch(err => {
             console.log('Sent error.');
-            return res.status(err.response.data.statusCode).send(err.response.data);
+            return res.status(404).send("Could not communicate with requested service.");
           })
         }
         else{
@@ -158,7 +157,7 @@ async function requestProcess(req, res, dest) {
             return res.send(response.data);
           }).catch(err => {
             console.log('Sent error.');
-            return res.status(err.response.data.statusCode).send(err.response.data);
+            return res.status(404).send("Could not communicate with requested service.");
           })
         }
       })
