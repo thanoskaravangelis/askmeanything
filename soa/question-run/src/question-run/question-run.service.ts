@@ -79,6 +79,34 @@ export class QuestionRunService {
         }
 
     }
+
+    async checkVote(headers:any,ansid) {
+        let id : number = await verify(headers);
+
+        const requestUrl = `answer/one`;
+        const params = {
+            id : ansid,
+            user: true,
+            votes:true
+        };
+
+        const answer = await axios.get(requestUrl, { params })
+        .then((response) => {console.log(response.data); return response.data; })
+        .catch(() => {
+            throw new  BadRequestException("Could not fetch data from the Data Layer.");
+        });
+
+    
+        let hasupvoted =false ,hasdownvoted = false;
+        for(let i=0;i < answer.votes.length; i++) {
+            if(answer.votes[i].userId == id){
+                hasupvoted = answer.votes[i].upvote;
+                hasdownvoted = answer.votes[i].downvote;
+            }
+        }
+        return { "hasupvoted" : hasupvoted , 
+                "hasdownvoted" : hasdownvoted}
+    }
     
     async vote(headers:any, body: CreateUserAnswerVoteDto) {
         let id : number = await verify(headers);

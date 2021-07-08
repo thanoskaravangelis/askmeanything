@@ -23,6 +23,11 @@ export class QuestionRunController {
     return this.questionRunService.deleteAnswer(req.headers,+id);
   }
 
+  @Get('checkvote/:ansid')
+  checkVote(@Request() req:any,@Param('ansid') ansid : string) {
+    return this.questionRunService.checkVote(req.headers, ansid);
+  }
+
   @Post('newvote')
   createVote(@Body() body: CreateUserAnswerVoteDto,@Request() req:any) {
     return this.questionRunService.vote(req.headers,body);
