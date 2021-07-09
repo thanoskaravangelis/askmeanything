@@ -1,4 +1,4 @@
-import { Controller, Body, Patch, Param, Request, Get, Delete } from "@nestjs/common";
+import { Controller, Body, Patch, Param, Request, Get, Delete, Query } from "@nestjs/common";
 import { ProfileService } from './profile.service';
 import axios from "axios";
 import { UpdateUserDto } from "src/users/dto/update-user.dto";
@@ -25,13 +25,13 @@ export class ProfileController {
   }
 
   @Get(':id/myquestions')
-  getMyQuestions(@Param('id') id: string,@Request() req:any) {
-    return this.profileService.getMyQuestions(req.headers,+id);
+  getMyQuestions(@Query('start') start:number, @Query('start') end:number, @Param('id') id: string,@Request() req:any) {
+    return this.profileService.getMyQuestions(start,end,req.headers,+id);
   }
 
   @Get(':id/myanswered')
-  getMyAnswers(@Param('id') id: string,@Request() req:any) {
-    return this.profileService.getMyAnswered(req.headers, +id);
+  getMyAnswers(@Query('start') start:number, @Query('start') end:number,@Param('id') id: string,@Request() req:any) {
+    return this.profileService.getMyAnswered(start,end,req.headers, +id);
   }
 
   @Get(':id/mystats')
@@ -40,8 +40,8 @@ export class ProfileController {
   }
 
   @Get('questionsperkeyword/:name')
-  getQuestionsPerKeyword(@Param('name') name:string) {
-    return this.profileService.getQuestionsPerKeyword(name);
+  getQuestionsPerKeyword(@Query('start') start:number, @Query('start') end:number,@Param('name') name:string) {
+    return this.profileService.getQuestionsPerKeyword(start,end,name);
   }
 
   @Get('questions/perkeyword/stats')
@@ -70,12 +70,12 @@ export class ProfileController {
   }
 
   @Get('questions/monthly/analytics/:year/:month')
-  getQuestionsMonthlyAnalytics(@Param('year') year:string,@Param('month') month:string) {
-    return this.profileService.getQuestionPerMonthAnalytics(month,year);
+  getQuestionsMonthlyAnalytics(@Query('start') start:number, @Query('start') end:number,@Param('year') year:string,@Param('month') month:string) {
+    return this.profileService.getQuestionPerMonthAnalytics(start,end,month,year);
   }
 
   @Get('questions/from/:startDate/to/:endDate')
-  getQuestionsSpan(@Param('startDate') startDate:string, @Param('endDate') endDate:string) {
-    return this.profileService.getQuestInDateSpan(startDate,endDate);
+  getQuestionsSpan(@Query('start') start:number, @Query('start') end:number,@Param('startDate') startDate:string, @Param('endDate') endDate:string) {
+    return this.profileService.getQuestInDateSpan(start,end,startDate,endDate);
   }
 }
