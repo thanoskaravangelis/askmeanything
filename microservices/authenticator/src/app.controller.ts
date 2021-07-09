@@ -1,4 +1,4 @@
-import { Controller, Request, Post, UseGuards, Get, Query } from "@nestjs/common";
+import { Controller, Request, Post, UseGuards, Get, Query, UseInterceptors, ClassSerializerInterceptor } from "@nestjs/common";
 import { LocalAuthGuard } from "./auth/local-auth.guard";
 import { AuthService } from "./auth/auth.service";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
@@ -7,6 +7,7 @@ import { CreateUserDto } from "./users/dto/create-user.dto";
 import { Body } from "@nestjs/common";
 import { AppService } from "./app.service";
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller()
 export class AppController {
   constructor(private authService: AuthService,private readonly usersService: UsersService
