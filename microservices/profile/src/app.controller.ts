@@ -1,15 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Request } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Patch, Post, Request, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { UpdateUserDto } from './users/dto/update-user.dto';
 
 @Controller('profile')
+@UseInterceptors(ClassSerializerInterceptor)
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get(':id')
-  getUser(@Param('id') id:string) {
-    return this.appService.getProfile(+id);
+  getUser(@Param('id') id:string, @Request() req:any) {
+    return this.appService.getProfile(req.headers, +id);
   }
 
   @Post()
