@@ -46,17 +46,22 @@ export class ProfileService {
     }
   }
 
-  async getMyQuestions(start,end,headers:any, userid:number) {
+  async getMyQuestions(start:number,end:number,headers:any, userid:number) {
     let id : number = await verify(headers);
 
-    const params = {'questions' : true, 'id' : userid };
+    const params = {'questions' : true, 'id' : userid, 'answers':true };
 
     const requestUrl = `/users/one`;
     const questions = await axios.get(requestUrl, {params}).then((response) => {console.log(`Got user's ${userid} questions.`); return response.data;}
     ,() => {
       throw new BadRequestException("Could not fetch data from the Data Layer.");
     });
-    return paginate(questions,{'start':start,'end':end});
+
+    const nested = paginate(questions.questions,{'start':start,'end':end});
+    delete questions.questions;
+    questions["questions"] = nested; 
+
+    return questions;
   }
 
   async getMyAnswered(start,end,headers:any, userid:number) {
@@ -125,7 +130,16 @@ export class ProfileService {
         throw new  BadRequestException("Could not fetch data from the Data Layer.");
     });
 
-    return paginate(questions,{'start':start,'end':end});
+    let newQuest = [];
+
+    for(let i = 0; i < questions.questions.length; i++){
+      newQuest.push(questions.questions[i].question);
+    }
+    delete questions.questions;
+    const paginated =  paginate(newQuest,{'start':start,'end':end});
+    questions["questions"] = paginated;
+
+    return questions;
   }
 
   async getQuestionsPerKeywordStats() {

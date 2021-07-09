@@ -29,12 +29,9 @@ export class UsersService {
       relations.push('questions.keywords');
       relations.push('questions.answers');
       relations.push('questions.keywords.keyword');
-    }
-    if(params.answers) {
-      relations.push('answers');
-      relations.push('answers.question');
-      relations.push('answers.votes');
-      relations.push('answers.user');
+      relations.push('questions.answers.question');
+      relations.push('questions.answers.votes');
+      relations.push('questions.answers.user');
     }
     if(params.id) { id = params.id; }
     const user = await this.manager.findOne(User, id, {relations : relations});
