@@ -1,106 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Landing.css';
 import './Questions.css'
-import NavBar from'./NavBar.js';
-import Footer from './Footer.js';
 import Pagination from 'react-bootstrap/Pagination'
+import OneQuestion from './OneQuestion';
+import { getQuestions } from './api';
 
-class Questions extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            questions : [{
-                id: 1,
-                title: "How to write CSS classes?",
-                text: "I have an issue writing on a @media tag in CSS. What is the proper syntax for that?",
-                createdAt: "2021-05-12 20:39:43.870089",
-                keywords: [
-                    {
-                        id:1,
-                        name: "css"
-                    },
-                    {
-                        id:33,
-                        name: "python"
-                    }
-                ],
-                upvotes: 22,
-                downvotes : 0
-            },
-            {
-                id: 2,
-                title: "How to write Java classes?",
-                text: "I have an issue creating a class in Java. What is the proper syntax for that?",
-                createdAt: "2021-07-12 20:39:43.870089",
-                keywords: [
-                    {
-                        id:1,
-                        name: "css"
-                    },
-                    {
-                        id:33,
-                        name: "python"
-                    }
-                ],
-                upvotes: 22,
-                downvotes : 0
-            }]
-        }
-    }
+function Questions() {
+    const [questions, setQuestions] = useState([]);
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
-    render() {
-        return (
-            <div className="questions-main-container center-content">
-                <NavBar />
-                <div className="line-separator"></div>
-                <div className="questions-main-div">
-                    <div className="questions-title center-content">
-                        Questions
+    useEffect(() => {
+        const altStart = '2000-01-01';
+        const currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + 1);
+        const altEnd = currentDate.toISOString().split('T')[0];
+        getQuestions(startDate || altStart , endDate || altEnd)
+        .then(response => {
+            console.log(response.data);
+            setQuestions(response.data);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }, [startDate, endDate])
+
+    return (
+            <div className="questions-main-div">
+                <h3 className="questions-title">
+                    Questions
+                </h3>
+                <h6>Choose a start and an end date</h6>
+                <div className='flex'>
+                    <div className='flex margin'>
+                        <h6 className='margin'>From</h6>
+                        <input type='date' value={startDate} onChange={(event)=>setStartDate(event.target.value)}/>
                     </div>
-                    <div className="allQuestions">
-                    {this.state.questions.map((question) => {
-                        return (
-                            <div className = "question-div">
-                                <div className= "question-div-title">{question.title}</div>
-                                <div className= "question-div-details">
-                                    <div className = "question-div-keywords">{question.keywords.map((keyword) => {return (
-                                        <div className="keyword-div">{keyword.name}</div>)})}
-                                    </div>
-                                    <div className="question-div-date-who">asked by <a className="profile-href" href="/questions">thanosblv</a> on 17:34 05-06-2021</div>
-                                </div>
-                                <div className="line-separator"></div>
-                            </div>
-                        );
-                    })}
+                    <div className='flex margin'>
+                        <h6 className='margin'>To</h6>
+                        <input type='date' value={endDate} onChange={(event)=>setEndDate(event.target.value)}/>
                     </div>
                 </div>
-                <div className="pagin-div center-content">
-                    <div className="pagination-container center-content">
-                        <Pagination>
-                            <Pagination.First/>
-                            <Pagination.Prev />
-                            <Pagination.Item>{1}</Pagination.Item>
-                            <Pagination.Ellipsis />
 
-                            <Pagination.Item>{10}</Pagination.Item>
-                            <Pagination.Item>{11}</Pagination.Item>
-                            <Pagination.Item active>{12}</Pagination.Item>
-                            <Pagination.Item>{13}</Pagination.Item>
-                            <Pagination.Item>{14}</Pagination.Item>
-
-                            <Pagination.Ellipsis />
-                            <Pagination.Item>{20}</Pagination.Item>
-                            <Pagination.Next />
-                            <Pagination.Last />
-                        </Pagination>
-                    </div>
-                </div>
-                <div className="footer-page-container">
-                    <Footer />
-                </div>
+                {questions.map((value, index) => {
+                    return (
+                        <OneQuestion key={index} question={value} />
+                    );
+                })}
+                {!questions.length && 
+                    <div style={{'color': 'red'}}>No more questions found.</div>
+                }
             </div>
-        )
-    }
+    )
 }
 
 export default Questions;
