@@ -16,6 +16,9 @@ export class AppService {
 
     if(body.user.id == id) {
         const answer = await this.answerService.create(body);
+        if(!answer){
+            throw new BadRequestException("Could not create new answer.")
+        }
         return answer;
     }
     else {
@@ -33,6 +36,9 @@ async editAnswer(headers:any, body: UpdateAnswerDto, ansid: number) {
     let userId;
     const answerGet = await this.answerService.findOne(params);
     userId = answerGet.userId;
+    if(!answerGet){
+        throw new BadRequestException(`Could not fetch answer's data with id ${ansid}`)
+    }
     
     if(userId == id) {
         console.log(body);
@@ -53,8 +59,11 @@ async deleteAnswer(headers:any, ansid:number) {
     };
     let userId;
     const answerGet = await this.answerService.findOne(params);
+    if(!answerGet){
+        throw new BadRequestException(`Could not fetch answer's data with id ${ansid}`)
+    }
 
-    if (userId == id) {
+    if (answerGet.userId == id) {
         const deleted = await this.answerService.remove(ansid);
         return deleted;
     }
