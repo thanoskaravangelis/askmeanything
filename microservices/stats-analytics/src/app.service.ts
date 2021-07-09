@@ -1,72 +1,104 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { verify } from './general/gen_functions';
+import { paginate, verify } from './general/gen_functions';
 import axios from 'axios';
+import { QuestionService } from './question/question.service';
+import { KeywordsService } from './keyword/keywords.service';
+import { UsersService } from './users/users.service';
+import { start } from 'repl';
+import { AnswerService } from './answer/answer.service';
 
 @Injectable()
 export class AppService {
-  async getMyQuestions(headers:any, userid:number) {
+  constructor(private readonly questionService: QuestionService , 
+    private readonly keywordsService: KeywordsService, 
+    private readonly usersService: UsersService, 
+    private readonly answersService: AnswerService){}
+
+  async getMyQuestions(start,end,headers:any, userid:number) {
     let id : number = await verify(headers);
 
-    const params = {'questions' : true, 'id' : userid };
+    const params = {'questions' : true, 'id' : userid};
+    const questions = await this.usersService.findOne(userid,params);
+    if(!questions) {
+      throw new BadRequestException("Could not fetch questions data.");
+    }
 
-    const requestUrl = `/users/one`;
-    return axios.get(requestUrl, {params}).then((response) => {console.log(`Got user's ${userid} questions.`); return response.data;}
-    ,() => {
-      throw new BadRequestException("Could not fetch data from the Data Layer.");
-    });
+    const nested = paginate(questions.questions,{'start':start,'end':end});
+    delete questions.questions;
+    questions["questions"] = nested; 
+
+    return questions;
   }
 
-  async getMyAnswers(headers:any, userid:number) {
+  async getMyAnswered(start,end,headers:any, userid:number) {
     let id : number = await verify(headers);
 
-    const params = {'answers' : true, 'id' : userid };
-
-    const requestUrl = `users/one`;
-    return axios.get(requestUrl,{ params }).then((response) => {console.log(`Got user's ${userid} answers.`); return response.data;}
-    ,() => {
+    const params = {'answers' : true, 'user' : true, 'keywords' : true };
+    const questions = await this.questionService.findAll(params);
+    if(!questions){
       throw new BadRequestException("Could not fetch data from the Data Layer.");
-    });
+    }
+    
+    let myanswered = [];
+
+    for(let i = 0; i < questions.length; i++) {
+      for(let j = 0; j < questions[i].answers.length; j++) {
+        if(questions[i].answers[j].userId == userid) {
+          myanswered.push(questions[i]);
+          break;
+        }
+      }
+    }
+    console.log(start,end);
+    return paginate(myanswered,{'start':start,'end':end});
   }
 
   async getMyStats(headers:any, userid:number) {
 
-      const requestUrl1 = `users/${userid}/myquestions`;
-      const requestUrl2 = `users/${userid}/myanswers`;
+      const totalq = await this.usersService.findMyQuestions(userid);
 
-      const totalq = await axios.get(requestUrl1);
+      const answers =  await this.usersService.findMyAnswers(userid);
 
-      const answers =  await axios.get(requestUrl2);
-
-      if(!totalq.data) {
+      if(!totalq) {
         console.log("Bad request in total questions.")
-        throw new BadRequestException("Could not fetch data from the Data Layer.")
+        throw new BadRequestException("Could not fetch questions data.")
       }
 
-      if(!answers.data) {
+      if(!answers) {
         console.log("Bad request in total answers.")
-        throw new BadRequestException("Could not fetch data from the Data Layer.")
+        throw new BadRequestException("Could not fetch answers data.")
       }
 
       console.log(`Got user's ${userid} stats.`);
 
       return {
-        'totalQuestions' : totalq.data.length , 
-        'totalAnswers' : answers.data.length
+        'totalQuestions' : totalq.length , 
+        'totalAnswers' : answers.length
       }
   }
 
-  getQuestionsPerKeyword(name:string) {
-    const requestUrl = `keywords/questions/${name}`;
+  async getQuestionsPerKeyword(start,end,name:string) {
     const params = {
         questions:true,
         questionsUser: true,
         questionsKeywords : true,
         questionsAnswers: true,
     }; 
-    return axios.get(requestUrl,{ params }).then((response) => {console.log(`Got keyword's {${name}} questions.`); return response.data;})
-    .catch(() => {
-        throw new  BadRequestException("Could not fetch data from the Data Layer.");
-    })
+    const questions = await this.keywordsService.findQuestionsPerKeyword(params,name);
+    if(!questions) {
+      throw new BadRequestException("Could not fetch questions data.");
+    }
+
+    let newQuest = [];
+
+    for(let i = 0; i < questions.questions.length; i++){
+      newQuest.push(questions.questions[i].question);
+    }
+    delete questions.questions;
+    const paginated =  paginate(newQuest,{'start':start,'end':end});
+    questions["questions"] = paginated;
+
+    return questions;
   }
 
   async getQuestionsPerKeywordStats() {
@@ -77,10 +109,10 @@ export class AppService {
         questionsKeywords : true,
         questionsAnswers: true,
     };
-    const keywords = await axios.get(requestUrl,{ params }).then((response) => {console.log(`Got keywords' stats.`); return response.data;})
-    .catch(() => {
-        throw new  BadRequestException("Could not fetch data from the Data Layer.");
-    });
+    const keywords = await this.keywordsService.findQuestionsPerKeywordsStats(params);
+    if(!keywords) {
+      throw new BadRequestException("Could not fetch keywords data.");
+    }
     let arr = [];
     keywords.forEach( (obj) => {
       if(obj.questions) {
@@ -93,51 +125,51 @@ export class AppService {
     return arr;
   }
 
-  getQuestionsPerDay() {
-    const requestUrl = 'question/daily/stats';
-    return axios.get(requestUrl).then((response) => {console.log(`Got daily questions stats.`); return response.data;})
-    .catch(() => {
-        throw new  BadRequestException("Could not fetch data from the Data Layer.");
-    });
+  async getQuestionsPerDay() {
+    const questions = await this.questionService.getQuestionsPerDay();
+    if(!questions) {
+      throw new BadRequestException("Could not fetch questions data.");
+    }
+    return questions;
   }
 
-  getQuestionsPerMonth() {
-    const requestUrl = 'question/monthly/stats';
-    return axios.get(requestUrl).then((response) => {console.log(`Got monthly questions stats.`); return response.data;})
-    .catch(() => {
-        throw new  BadRequestException("Could not fetch data from the Data Layer.");
-    });
+  async getQuestionsPerMonth() {
+    const questions = await this.questionService.getQuestionsPerMonth()
+    if(!questions) {
+      throw new BadRequestException("Could not fetch questions data.");
+    }
+    return questions;
   }
 
-  getAnswersPerDay() {
-    const requestUrl = 'answer/daily/stats';
-    return axios.get(requestUrl).then((response) => {console.log(`Got daily answers stats.`); return response.data;})
-    .catch(() => {
-        throw new  BadRequestException("Could not fetch data from the Data Layer.");
-    });
+  async getAnswersPerDay() {
+    const answers = this.answersService.getAnswersPerDay();
+    if(!answers) {
+      throw new BadRequestException("Could not fetch answers data.");
+    }
+    return answers;
   }
 
-  getAnswersPerMonth() {
-    const requestUrl = 'answer/monthly/stats';
-    return axios.get(requestUrl).then((response) => {console.log(`Got monthly answers stats.`); return response.data;})
-    .catch(() => {
-        throw new  BadRequestException("Could not fetch data from the Data Layer.");
-    });
+  async getAnswersPerMonth() {
+    const answers = await this.answersService.getAnswersPerMonth();
+    if(!answers) {
+      throw new BadRequestException("Could not fetch answers data.");
+    }
+    return answers;
   }
 
-  getQuestionPerMonthAnalytics(month: string,year:string) {
-    const requestUrl = 'question/monthly/analytics/'+year+'/'+month;
-    return axios.get(requestUrl).then((response) => {console.log(`Got monthly questions analytics.`);return response.data;})
-    .catch(() => {
-        throw new  BadRequestException("Could not fetch data from the Data Layer.");
-    });
+  async getQuestionPerMonthAnalytics(start,end,month: string,year:string) {
+    const questions = await this.questionService.getQuestionsPerMonthAnalytics(month,year);
+    if(!questions) {
+      throw new BadRequestException("Could not fetch questions data.");
+    }
+    return paginate(questions,{'start':start,'end':end});
   }
 
-  getQuestInDateSpan(startDate:string, endDate:string) {
-    const requestUrl = 'question/from/'+startDate+'/to/'+endDate;
-    return axios.get(requestUrl).then((response) => {console.log(`Got questions from ${startDate} to ${endDate}.`); return response.data;})
-    .catch(() => {
-        throw new  BadRequestException("Could not fetch data from the Data Layer.");
-    });
+  async getQuestInDateSpan(start,end,startDate:string, endDate:string) {
+    const questions = await this.questionService.getQuestionsInDateSpan(startDate,endDate);
+    if(!questions) {
+      throw new BadRequestException("Could not fetch questions data.");
+    }
+    return paginate(questions,{'start':start,'end':end});
   }
 }
