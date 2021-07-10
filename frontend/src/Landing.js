@@ -10,7 +10,7 @@ class Landing extends React.Component{
     }
 
     redirectToNewQuestion = (e) => {
-        window.location.href = '/newquestion' ;
+        window.location.href = '/ask' ;
     }
 
     redirectToQuestions = (e) => {
