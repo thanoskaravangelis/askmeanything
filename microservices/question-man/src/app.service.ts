@@ -8,12 +8,15 @@ import { QuestionHasKeywordsService } from './question-has-keyword/question-has-
 import { CreateQuestionDto } from './question/dto/create-question.dto';
 import { UpdateQuestionDto } from './question/dto/update-question.dto';
 import { QuestionService } from './question/question.service';
+import { UsersService } from './users/users.service';
 
 @Injectable()
 export class AppService {
-    constructor(private readonly questionService: QuestionService,
+    constructor(private readonly questionService: QuestionService ,
+        private readonly usersService : UsersService,
         private readonly keywordService : KeywordsService,
-        private readonly questionHasKeywordsService: QuestionHasKeywordsService) {}
+        private readonly questionHasKeywordService : QuestionHasKeywordsService)
+        {}
   
   getKeywords(start,end){
     return paginate(this.keywordService.findAll() ,{'start':start,'end': end});
@@ -80,13 +83,48 @@ export class AppService {
 
   async createQuestionHasKeyword(headers:any, body: CreateQuestionHasKeywordDto) {
       let id : number = await verify(headers);
-      const keyword = this.questionHasKeywordsService.create(body);
+      const keyword = this.questionHasKeywordService.create(body);
       return keyword;
   }
 
   async removeQuestionKeyword(headers:any, relationId:number) {
       let id : number = await verify(headers);
-      const keyword = this.questionHasKeywordsService.remove(relationId);
+      const keyword = this.questionHasKeywordService.remove(relationId);
       return keyword;
+  }
+
+  choreo(body:any) {
+    const servicesList = {
+      'user' : this.usersService,
+      'question' : this.questionService,
+      'keyword' : this.keywordService,
+      'question-has-keyword' : this.questionHasKeywordService
+    }
+    let entity = body.entity;
+    let method = body.method;
+    let newBody = body.req_data;
+    let id = body.id;
+
+    console.log({
+      'method' : method,
+      'entity' : entity,
+      'toEntity' : servicesList[entity]
+    });
+
+    if(entity === 'user'){
+      newBody = {
+        'username' : body.req_data.username
+      }
+    }
+
+    if(method === 'post') {
+      return servicesList[entity].create(newBody);
+    }
+    if(method === 'patch') {
+      return servicesList[entity].update(id,newBody)
+    }
+    if(method === 'delete') {
+      return servicesList[entity].remove(id);
+    }
   }
 }

@@ -7,6 +7,7 @@ import { QuestionHasKeyword } from './entities/question-has-keyword.entity';
 @Module({
   imports:[TypeOrmModule.forFeature([QuestionHasKeyword])],
   controllers: [QuestionHasKeywordsController],
-  providers: [QuestionHasKeywordsService]
+  providers: [QuestionHasKeywordsService],
+  exports:[QuestionHasKeywordsService]
 })
 export class QuestionHasKeywordsModule {}

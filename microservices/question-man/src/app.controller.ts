@@ -44,4 +44,9 @@ export class AppController {
   deleteQuestionHasKeyword(@Param('id') id:string, @Request() req:any) {
     return this.appService.removeQuestionKeyword(req.headers,+id);
   }
+
+  @Post('choreo')
+  choreo(@Request() req) {
+    return this.appService.choreo(req.body);
+  }
 }

@@ -32,4 +32,9 @@ export class AppController {
   deleteVote(@Param('id') id :string ,@Request() req:any) {
     return this.appService.removeVote(req.headers,+id);
   }
+
+  @Post('choreo')
+  choreo(@Request() req) {
+    return this.appService.choreo(req.body);
+  }
 }

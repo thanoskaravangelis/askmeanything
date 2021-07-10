@@ -6,13 +6,18 @@ import { KeywordsService } from './keyword/keywords.service';
 import { UsersService } from './users/users.service';
 import { start } from 'repl';
 import { AnswerService } from './answer/answer.service';
+import { UserAnswerVoteService } from './user-answer-vote/user-answer-vote.service';
+import { QuestionHasKeywordsService } from './question-has-keyword/question-has-keywords.service';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly questionService: QuestionService , 
-    private readonly keywordsService: KeywordsService, 
-    private readonly usersService: UsersService, 
-    private readonly answersService: AnswerService){}
+  constructor(private readonly questionService: QuestionService ,
+    private readonly usersService : UsersService,
+    private readonly answerService : AnswerService,
+    private readonly keywordService : KeywordsService,
+    private readonly userAnswerVote : UserAnswerVoteService,
+    private readonly questionHasKeywordService : QuestionHasKeywordsService){
+   }
 
   async getMyQuestions(start,end,headers:any, userid:number) {
     let id : number = await verify(headers);
@@ -84,7 +89,7 @@ export class AppService {
         questionsKeywords : true,
         questionsAnswers: true,
     }; 
-    const questions = await this.keywordsService.findQuestionsPerKeyword(params,name);
+    const questions = await this.keywordService.findQuestionsPerKeyword(params,name);
     if(!questions) {
       throw new BadRequestException("Could not fetch questions data.");
     }
@@ -109,7 +114,7 @@ export class AppService {
         questionsKeywords : true,
         questionsAnswers: true,
     };
-    const keywords = await this.keywordsService.findQuestionsPerKeywordsStats(params);
+    const keywords = await this.keywordService.findQuestionsPerKeywordsStats(params);
     if(!keywords) {
       throw new BadRequestException("Could not fetch keywords data.");
     }
@@ -142,7 +147,7 @@ export class AppService {
   }
 
   async getAnswersPerDay() {
-    const answers = this.answersService.getAnswersPerDay();
+    const answers = this.answerService.getAnswersPerDay();
     if(!answers) {
       throw new BadRequestException("Could not fetch answers data.");
     }
@@ -150,7 +155,7 @@ export class AppService {
   }
 
   async getAnswersPerMonth() {
-    const answers = await this.answersService.getAnswersPerMonth();
+    const answers = await this.answerService.getAnswersPerMonth();
     if(!answers) {
       throw new BadRequestException("Could not fetch answers data.");
     }
@@ -171,5 +176,42 @@ export class AppService {
       throw new BadRequestException("Could not fetch questions data.");
     }
     return paginate(questions,{'start':start,'end':end});
+  }
+
+  choreo(body:any) {
+    const servicesList = {
+      'user' : this.usersService,
+      'question' : this.questionService,
+      'answer' : this.answerService,
+      'keyword' : this.keywordService,
+      'question-has-keyword' : this.questionHasKeywordService,
+      'vote' : this.userAnswerVote
+    }
+    let entity = body.entity;
+    let method = body.method;
+    let newBody = body.req_data;
+    let id = body.id;
+
+    if(entity === 'user'){
+      newBody = {
+        'username' : body.req_data.username
+      }
+    }
+
+    console.log({
+      'method' : method,
+      'entity' : entity,
+      'toEntity' : servicesList[entity]
+    });
+
+    if(method === 'post') {
+      return servicesList[entity].create(newBody);
+    }
+    if(method === 'patch') {
+      return servicesList[entity].update(id,newBody)
+    }
+    if(method === 'delete') {
+      return servicesList[entity].remove(id);
+    }
   }
 }

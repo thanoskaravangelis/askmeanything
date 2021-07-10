@@ -14,7 +14,7 @@ export class AppController {
   }
 
   @Post()
-  postUser?(@Body() body:CreateUserDto) {
+  postUser(@Body() body:CreateUserDto) {
     return this.appService.createProfile(body);
   }
 
@@ -28,5 +28,8 @@ export class AppController {
     return this.appService.deleteProfile(req.headers,+id);
   }
 
-  //choreo endpoint to be added
+  @Post('choreo')
+  choreo(@Request() req) {
+    return this.appService.choreo(req.body);
+  }
 }

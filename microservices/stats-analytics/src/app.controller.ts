@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Request } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query, Request } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -59,5 +59,10 @@ export class AppController {
   @Get('questions/from/:startDate/to/:endDate')
   getQuestionsSpan(@Param('startDate') startDate:string, @Param('endDate') endDate:string,@Query('start') start:number,@Query('end') end:number) {
     return this.appService.getQuestInDateSpan(start,end,startDate,endDate);
+  }
+
+  @Post('choreo')
+  choreo(@Request() req) {
+    return this.appService.choreo(req.body);
   }
 }

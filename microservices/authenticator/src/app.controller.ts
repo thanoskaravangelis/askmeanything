@@ -18,9 +18,9 @@ export class AppController {
     return this.appService.listEndpoints();
   }
 
-  @Get('allow')
-  isAllowed(@Query() params: any) {
-    return this.appService.isAllowed(params);
+  @Post('choreo')
+  choreo(@Request() req) {
+    return this.appService.choreo(req.body);
   }
   
   @UseGuards(LocalAuthGuard)
@@ -37,7 +37,7 @@ export class AppController {
 
   @Post('auth/signup')
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return this.appService.signUp(createUserDto);
   }
 
   //choreo endpoint to be added

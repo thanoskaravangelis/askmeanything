@@ -4,12 +4,17 @@ import { AnswerService } from './answer/answer.service';
 import { CreateAnswerDto } from './answer/dto/create-answer.dto';
 import { UpdateAnswerDto } from './answer/dto/update-answer.dto';
 import { verify } from './general/gen_functions';
+import { QuestionService } from './question/question.service';
 import { CreateUserAnswerVoteDto } from './user-answer-vote/dto/create-user-answer-vote.dto';
 import { UserAnswerVoteService } from './user-answer-vote/user-answer-vote.service';
+import { UsersService } from './users/users.service';
 
 @Injectable()
 export class AppService {
-    constructor(private readonly answerService: AnswerService, private readonly userAnswerVoteService: UserAnswerVoteService){}
+    constructor(private readonly questionService: QuestionService ,
+        private readonly usersService : UsersService,
+        private readonly answerService : AnswerService,
+        private readonly userAnswerVoteService : UserAnswerVoteService){}
 
   async createAnswer(headers:any, body: CreateAnswerDto){
     let id : number = await verify(headers);
@@ -109,4 +114,47 @@ async removeVote(headers:any, voteid : number) {
         throw new UnauthorizedException("Unauthorized action.");
     }
 }
+
+choreo(body:any) {
+    const servicesList = {
+        'user' : this.usersService,
+        'question' : this.questionService,
+        'answer' : this.answerService,
+        'vote' : this.userAnswerVoteService
+      }
+    let entity = body.entity;
+    let method = body.method;
+    let newBody = body.req_data;
+    let id = body.id;
+
+    console.log({
+        'method' : method,
+        'entity' : entity,
+        'toEntity' : servicesList[entity]
+      });
+
+    if(entity === 'user'){
+      newBody = {
+        'username' : body.req_data.username
+      }
+    }
+
+    if(entity === 'question') {
+        newBody = {
+            "user" : {
+                "id" : body.req_data.user.id
+            }
+          }
+    }
+
+    if(method === 'post') {
+      return servicesList[entity].create(newBody);
+    }
+    if(method === 'patch') {
+      return servicesList[entity].update(id,newBody)
+    }
+    if(method === 'delete') {
+      return servicesList[entity].remove(id);
+    }
+  }
 }

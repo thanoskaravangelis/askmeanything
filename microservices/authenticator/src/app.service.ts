@@ -1,7 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { CreateUserDto } from './users/dto/create-user.dto';
+import { UsersService } from './users/users.service';
+import axios from "axios";
+
+const CHOREO_URL ="http://localhost:3060";
+const ME = "http://localhost:3051";
 
 @Injectable()
 export class AppService {
+  constructor(private readonly usersService: UsersService){}
   private endpoints = [
     {
       regex : new RegExp('auth/login|whoami|signup'),
@@ -9,21 +16,6 @@ export class AppService {
       authorize: true
     }
   ];
-
-  isAllowed(params: any) {
-    let returned = {
-      valid:false,
-      authorize:false
-    };
-
-    for (let i = 0; i < this.endpoints.length; i++) {
-      if(this.endpoints[i].regex.test(params.url)) {
-        returned.valid = this.endpoints[i].valid;
-        returned.authorize = this.endpoints[i].authorize;
-      }
-    }
-    return returned;
-  }
 
   listEndpoints() {
     let returned = [];
@@ -38,5 +30,41 @@ export class AppService {
     }
 
     return returned; 
+  }
+
+  async signUp(body:CreateUserDto) {
+      const sent = {
+        "entity" : "user",
+        "method" : "post",
+        "from" : ME,
+        "req_data" : body
+      }
+      console.log(sent);
+      await axios.post(CHOREO_URL+'/', sent).then().catch(
+        (err) => {
+          console.log(err);
+          throw new BadRequestException("Could not communicate with choreographer.")
+        }
+      )
+    return this.usersService.create(body);
+  }
+
+  choreo(body:any) {
+    let entity = body.entity;
+    let method = body.method;
+    let newBody = body.req_data;
+    let id = body.id;
+
+    if(entity === 'user'){
+      if(method === 'post') {
+        return this.usersService.create(newBody);
+      }
+      if(method === 'patch') {
+        return this.usersService.update(id,newBody)
+      }
+      if(method === 'delete') {
+        return this.usersService.remove(id);
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query, Request } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -13,5 +13,10 @@ export class AppController {
   @Get('question/:id')
   displayQuestion(@Param('id') id:string) {
     return this.appService.displayQuestion(+id);
+  }
+
+  @Post('choreo')
+  choreo(@Request() req) {
+    return this.appService.choreo(req.body);
   }
 }

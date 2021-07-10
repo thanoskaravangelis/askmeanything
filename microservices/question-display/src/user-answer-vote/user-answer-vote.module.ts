@@ -4,6 +4,7 @@ import { UserAnswerVoteController } from './user-answer-vote.controller';
 
 @Module({
   controllers: [UserAnswerVoteController],
-  providers: [UserAnswerVoteService]
+  providers: [UserAnswerVoteService],
+  exports: [UserAnswerVoteService]
 })
 export class UserAnswerVoteModule {}
