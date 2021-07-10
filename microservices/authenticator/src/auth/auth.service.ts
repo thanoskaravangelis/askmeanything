@@ -20,6 +20,7 @@ export class AuthService {
       return null;
     else {
       console.log('user_data:'+user);
+      console.log(user.password);
     }
     let passwd = user.password;
     if(user && passwd === /*Md5.hashStr(pass)*/pass.toString()) {

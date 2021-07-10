@@ -5,9 +5,6 @@
 #db
 ormconfig.json
 
-#jwt
-src/auth/constants.ts
-
 # Logs
 logs
 *.log

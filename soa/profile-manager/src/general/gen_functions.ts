@@ -6,6 +6,9 @@ const esbUrl = 'http://localhost:3010';
 export function verify(headers: any) {
     let token = '';
     let item = headers["authorization"];
+    if(!item) {
+        throw new UnauthorizedException("Could not find access token for authorization.");
+    }
     if (item.startsWith('Bearer')) {
         token = item.slice(7);
     }

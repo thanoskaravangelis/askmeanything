@@ -9,7 +9,9 @@ import { UsersService } from './users/users.service';
 export class AppService {
   constructor(private readonly usersService: UsersService) {}
   
-  async getProfile(userid:number) {
+  async getProfile(headers:any, userid:number) {
+    let id : number = await verify(headers);
+    
     const params = {"id" : userid}
     const user = await this.usersService.findOne(userid,params);
     return user;
