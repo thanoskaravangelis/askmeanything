@@ -74,10 +74,12 @@ async function requestProcess(req, res) {
         receivers.push(urls.questionman);
         receivers.push(urls.questionrun);
         receivers.push(urls.stats);
+        break;
       case "question-has-keyword":
         receivers.push(urls.questiondisp);
         receivers.push(urls.questionman);
         receivers.push(urls.stats);
+        break;
       case "user":
         receivers.push(urls.questiondisp);
         receivers.push(urls.questionman);
@@ -85,15 +87,21 @@ async function requestProcess(req, res) {
         receivers.push(urls.profileman);
         receivers.push(urls.auth);
         receivers.push(urls.questionrun);
+        break;
       case "vote":
         receivers.push(urls.questiondisp);
         receivers.push(urls.questionrun);
         receivers.push(urls.stats);
+        break;
       default:
           break;
   }
 
-  receivers.pop(from);
+  for(let i=0; i<receivers.length; ++i) {
+    if(receivers[i] === from) {
+      receivers.splice(i,1);
+    }
+  }
 
   pool.hget('bus', 'messages', async (err, data) => {
     const currMessages = JSON.parse(data) || [];
@@ -121,26 +129,24 @@ async function requestProcess(req, res) {
     })
     currMessages.push(newMessage);
     console.log('I pushed the new message.');
-    pool.hset('bus', 'messages', JSON.stringify(currMessages), () => {
+    pool.hset('bus', 'messages', JSON.stringify(currMessages), async () => {
       pool.hget('channel', 'subscribers', async (err, data) => {
         const subscribers = JSON.parse(data);
         let service_available = false;
         let stop = false;
         let unavailable;
-        for (let i = 0; i < subscribers.length; i++) {
-            for(let j = 0; j < receivers.length; j++){
-                if(!stop) {
-                    if (subscribers.includes(receivers[j])) {
-                      console.log('Service: '+receivers[j]+' ok.');
-                        if(j === receivers.length - 1) {
-                            service_available = true;
-                        }
-                        continue;
+        for(let j = 0; j < receivers.length; j++){
+            if(!stop) {
+                if (subscribers.includes(receivers[j])) {
+                  console.log('Service: '+receivers[j]+' ok.');
+                    if(j === receivers.length - 1) {
+                        service_available = true;
                     }
-                    else {
-                        unavailable = receivers[j];   
-                        stop = true;
-                    }
+                    continue;
+                }
+                else {
+                    unavailable = receivers[j];   
+                    stop = true;
                 }
             }
         }
@@ -151,16 +157,15 @@ async function requestProcess(req, res) {
         console.log("Start distributing...");
         for (let i = 0; i < receivers.length; i++)
         {
+            console.log("now sending message to: "+receivers[i]);
             await axios.post(receivers[i]+'/choreo', toBeSent ,{ headers } )
             .then(response => {
                 console.log('Sent response.');
-                return res.send(response.data);
-            }).catch(err => {
-                console.log('Sent error.');
-                return res.status(404).send("Could not communicate with requested service.");
+            }).catch((err) => {
+                return res.status(err.response.data.statusCode).send("Could not communicate with requested service.");
             });
         }
-        return;
+        return res.status(200).send("All services are now up to date.");
       })
     })
   })
