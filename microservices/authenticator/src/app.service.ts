@@ -33,6 +33,8 @@ export class AppService {
   }
 
   async signUp(body:CreateUserDto) {
+    const user = await this.usersService.create(body);
+
       const sent = {
         "entity" : "user",
         "method" : "post",
@@ -46,7 +48,7 @@ export class AppService {
           throw new BadRequestException("Could not communicate with choreographer.")
         }
       )
-    return this.usersService.create(body);
+    return user;
   }
 
   choreo(body:any) {

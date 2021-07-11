@@ -28,20 +28,22 @@ export class AppService {
     let id : number = await verify(headers);
 
     if(id == userid) {
+      const user = await this.usersService.remove(userid);
+
       const sent = {
         "entity" : "user",
         "method" : "delete",
         "id" : userid,
         "from" : ME
       }
-      console.log(headers);
+
       console.log(sent);
       await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
         () => {
           throw new BadRequestException("Could not communicate with choreographer.")
         }
       )
-      return this.usersService.remove(userid);
+      return user;
     }
     else{
       throw new UnauthorizedException("Unauthorized action.");
@@ -52,14 +54,30 @@ export class AppService {
     let id : number = await verify(headers);
   
     if(id === userid) {
-      return this.usersService.update(userid, body);
+      const user = await this.usersService.update(userid, body);
+
+      const sent = {
+        "entity" : "user",
+        "method" : "patch",
+        "id" : userid,
+        "from" : ME,
+        "req_data" : body
+      }
+
+      console.log(sent);
+      await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+        () => {
+          throw new BadRequestException("Could not communicate with choreographer.")
+        }
+      )
+      return user;
     }
     else{
       throw new UnauthorizedException("Unauthorized action.");
     }
   }
 
-  choreo(body:any) {
+  async choreo(body:any) {
     let entity = body.entity;
     let method = body.method;
     let newBody = body.req_data;
@@ -72,7 +90,9 @@ export class AppService {
 
     if(entity === 'user'){
       if(method === 'post') {
-        return this.usersService.create(newBody);
+        const user = await this.usersService.create(newBody);
+        console.log(user.username);
+        return user;
       }
       if(method === 'patch') {
         return this.usersService.update(id,newBody)

@@ -3,7 +3,7 @@ import { AppService } from './app.service';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { UpdateUserDto } from './users/dto/update-user.dto';
 
-@Controller('profile')
+@Controller()
 @UseInterceptors(ClassSerializerInterceptor)
 export class AppController {
   constructor(private readonly appService: AppService) {}

@@ -10,6 +10,9 @@ import { UpdateQuestionDto } from './question/dto/update-question.dto';
 import { QuestionService } from './question/question.service';
 import { UsersService } from './users/users.service';
 
+const CHOREO_URL = "http://localhost:3060";
+const ME = "http://localhost:3052";
+
 @Injectable()
 export class AppService {
     constructor(private readonly questionService: QuestionService ,
@@ -28,10 +31,26 @@ export class AppService {
       const requestUrl = 'keywords';
       let name = body.name;
       let resp = await this.keywordService.findOneByName(name);
-      if(resp.name)
+      if(resp.name) {
           return resp;
+      }
       else {
           const keyword = await this.keywordService.create(body); 
+
+          const sent = {
+            "entity" : "keyword",
+            "method" : "post",
+            "from" : ME,
+            "req_data": body
+          }
+    
+          console.log(sent);
+          await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+            () => {
+              throw new BadRequestException("Could not communicate with choreographer.")
+            }
+          )
+
           return keyword;
       }
   }
@@ -44,7 +63,23 @@ export class AppService {
       
       if(id==question.user.id) {
           console.log(`User with id ${id} has the right to edit the question.`);
-          const question = this.questionService.update(questId,body);
+          const question = await this.questionService.update(questId,body);
+
+          const sent = {
+            "entity" : "question",
+            "method" : "patch",
+            "id" : questId,
+            "from" : ME,
+            "req_data": body
+          }
+    
+          console.log(sent);
+          await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+            () => {
+              throw new BadRequestException("Could not communicate with choreographer.")
+            }
+          )
+
           return question;
       }
       else {
@@ -58,6 +93,21 @@ export class AppService {
 
       if(id===body.user.id) {
           const question = await this.questionService.create(body);
+
+          const sent = {
+            "entity" : "question",
+            "method" : "post",
+            "from" : ME,
+            "req_data": body
+          }
+    
+          console.log(sent);
+          await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+            () => {
+              throw new BadRequestException("Could not communicate with choreographer.")
+            }
+          )
+
           return question;
       }
       else {
@@ -73,7 +123,21 @@ export class AppService {
 
       if(id==question.user.id) {
           console.log(`User with id ${id} has the right to delete the question.`);
-          const deleted = this.questionService.remove(questId);
+          const deleted = await this.questionService.remove(questId);
+
+          const sent = {
+            "entity" : "question",
+            "method" : "delete",
+            "id" : questId,
+            "from" : ME,
+          }
+    
+          console.log(sent);
+          await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+            () => {
+              throw new BadRequestException("Could not communicate with choreographer.")
+            }
+          )
           return deleted;
       }
       else {
@@ -83,13 +147,41 @@ export class AppService {
 
   async createQuestionHasKeyword(headers:any, body: CreateQuestionHasKeywordDto) {
       let id : number = await verify(headers);
-      const keyword = this.questionHasKeywordService.create(body);
+      const keyword = await this.questionHasKeywordService.create(body);
+
+      const sent = {
+        "entity" : "question-has-keyword",
+        "method" : "post",
+        "from" : ME,
+        "req_data": body
+      }
+
+      console.log(sent);
+      await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+        () => {
+          throw new BadRequestException("Could not communicate with choreographer.")
+        }
+      )
       return keyword;
   }
 
   async removeQuestionKeyword(headers:any, relationId:number) {
       let id : number = await verify(headers);
       const keyword = this.questionHasKeywordService.remove(relationId);
+
+      const sent = {
+        "entity" : "question-has-keyword",
+        "method" : "delete",
+        "from" : ME,
+        "id" : relationId
+      }
+
+      console.log(sent);
+      await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+        () => {
+          throw new BadRequestException("Could not communicate with choreographer.")
+        }
+      )
       return keyword;
   }
 
