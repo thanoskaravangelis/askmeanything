@@ -133,7 +133,7 @@ choreo(body:any) {
         'toEntity' : servicesList[entity]
       });
 
-    if(entity === 'user'){
+    if(entity === 'user' && (method === 'post' || method === 'patch')){
       newBody = {
         'username' : body.req_data.username
       }

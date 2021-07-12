@@ -35,19 +35,20 @@ export class AppService {
   async signUp(body:CreateUserDto) {
     const user = await this.usersService.create(body);
 
-      const sent = {
-        "entity" : "user",
-        "method" : "post",
-        "from" : ME,
-        "req_data" : body
+    const sent = {
+      "entity" : "user",
+      "method" : "post",
+      "from" : ME,
+      "req_data" : body
+    }
+    console.log(sent);
+    await axios.post(CHOREO_URL+'/', sent).then().catch(
+      (err) => {
+        console.log(err);
+        throw new BadRequestException("Could not communicate with choreographer.")
       }
-      console.log(sent);
-      await axios.post(CHOREO_URL+'/', sent).then().catch(
-        (err) => {
-          console.log(err);
-          throw new BadRequestException("Could not communicate with choreographer.")
-        }
-      )
+    )
+    
     return user;
   }
 

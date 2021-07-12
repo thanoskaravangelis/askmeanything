@@ -10,7 +10,7 @@ import { UpdateQuestionDto } from './question/dto/update-question.dto';
 import { QuestionService } from './question/question.service';
 import { UsersService } from './users/users.service';
 
-const CHOREO_URL = "http://localhost:3060";
+const CHOREO_URL = "http://localhost:3060/";
 const ME = "http://localhost:3052";
 
 @Injectable()
@@ -28,7 +28,6 @@ export class AppService {
   async createKeyword(headers:any,body: CreateKeywordDto) {
       let id : number = await verify(headers);
 
-      const requestUrl = 'keywords';
       let name = body.name;
       let resp = await this.keywordService.findOneByName(name);
       if(resp.name) {
@@ -45,7 +44,7 @@ export class AppService {
           }
     
           console.log(sent);
-          await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+          await axios.post(CHOREO_URL, sent).then().catch(
             () => {
               throw new BadRequestException("Could not communicate with choreographer.")
             }
@@ -74,7 +73,7 @@ export class AppService {
           }
     
           console.log(sent);
-          await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+          await axios.post(CHOREO_URL, sent).then().catch(
             () => {
               throw new BadRequestException("Could not communicate with choreographer.")
             }
@@ -88,7 +87,6 @@ export class AppService {
   }
 
   async createQuestion(headers:any, body : CreateQuestionDto) {
-      console.log(headers);
       let id:number = await verify(headers);
 
       if(id===body.user.id) {
@@ -102,7 +100,7 @@ export class AppService {
           }
     
           console.log(sent);
-          await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+          await axios.post(CHOREO_URL, sent).then().catch(
             () => {
               throw new BadRequestException("Could not communicate with choreographer.")
             }
@@ -133,7 +131,7 @@ export class AppService {
           }
     
           console.log(sent);
-          await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+          await axios.post(CHOREO_URL, sent).then().catch(
             () => {
               throw new BadRequestException("Could not communicate with choreographer.")
             }
@@ -157,7 +155,7 @@ export class AppService {
       }
 
       console.log(sent);
-      await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+      await axios.post(CHOREO_URL, sent).then().catch(
         () => {
           throw new BadRequestException("Could not communicate with choreographer.")
         }
@@ -177,7 +175,7 @@ export class AppService {
       }
 
       console.log(sent);
-      await axios.post(CHOREO_URL, {sent} ,{ headers }).then().catch(
+      await axios.post(CHOREO_URL, sent).then().catch(
         () => {
           throw new BadRequestException("Could not communicate with choreographer.")
         }
