@@ -9,6 +9,8 @@ import { CreateUserAnswerVoteDto } from './user-answer-vote/dto/create-user-answ
 import { UserAnswerVoteService } from './user-answer-vote/user-answer-vote.service';
 import { UsersService } from './users/users.service';
 
+const ME = "http://localhost:3053";
+const CHOREO_URL = "http://localhost:3060";
 @Injectable()
 export class AppService {
     constructor(private readonly questionService: QuestionService ,
@@ -21,9 +23,21 @@ export class AppService {
 
     if(body.user.id == id) {
         const answer = await this.answerService.create(body);
-        if(!answer){
-            throw new BadRequestException("Could not create new answer.")
+        
+        const sent = {
+            "entity" : "answer",
+            "method" : "post",
+            "from" : ME,
+            "req_data": body
         }
+
+        console.log(sent);
+        await axios.post(CHOREO_URL, sent).then().catch(
+            () => {
+                throw new BadRequestException("Could not communicate with choreographer.")
+            }
+        )
+
         return answer;
     }
     else {
@@ -90,12 +104,59 @@ async vote(headers:any, body: CreateUserAnswerVoteDto) {
     }
     if(!checkdata) {
         const vote = await this.userAnswerVoteService.create(body);
+        
+        const sent = {
+            "entity" : "vote",
+            "method" : "post",
+            "from" : ME,
+            "req_data": body
+          }
+    
+        console.log(sent);
+        await axios.post(CHOREO_URL, sent).then().catch(
+            () => {
+            throw new BadRequestException("Could not communicate with choreographer.")
+            }
+        )
+        
         return vote;
     }
     else {
         voteId = checkdata.id;
         const deleted = await this.userAnswerVoteService.remove(voteId);
+        
+        const sent1 = {
+            "entity" : "vote",
+            "method" : "delete",
+            "id" : voteId,
+            "from" : ME,
+        }
+    
+        console.log(sent1);
+        await axios.post(CHOREO_URL, sent1).then().catch(
+            () => {
+                throw new BadRequestException("Could not communicate with choreographer.")
+            }
+        )
+        
+        //deleted and old vote and now posting new one//
+
         const posted = await this.userAnswerVoteService.create(body);
+
+        const sent = {
+            "entity" : "vote",
+            "method" : "post",
+            "from" : ME,
+            "req_data": body
+        }
+
+        console.log(sent);
+        await axios.post(CHOREO_URL, sent).then().catch(
+            () => {
+                throw new BadRequestException("Could not communicate with choreographer.")
+            }   
+        )
+
         return posted;
     }
 }
@@ -108,7 +169,24 @@ async removeVote(headers:any, voteid : number) {
     userId = thisVote.userId;
 
     if(id == userId) {
-        return this.userAnswerVoteService.remove(voteid);
+        const deleted = this.userAnswerVoteService.remove(voteid);
+
+        const sent = {
+            "entity" : "vote",
+            "method" : "delete",
+            "id":voteid,
+            "from" : ME,
+        }
+
+        console.log(sent);
+        await axios.post(CHOREO_URL, sent).then().catch(
+            () => {
+                throw new BadRequestException("Could not communicate with choreographer.")
+            }   
+        )
+
+        return deleted;
+
     }
     else {
         throw new UnauthorizedException("Unauthorized action.");
