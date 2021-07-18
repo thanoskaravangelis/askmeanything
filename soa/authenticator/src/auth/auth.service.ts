@@ -22,7 +22,7 @@ export class AuthService {
       console.log('user_data:'+user.data);
     }
     let passwd = user.data.password;
-    if(user && passwd === /*Md5.hashStr(pass)*/pass.toString()) {
+    if(user && passwd === hashed) {
       const { password, ...result} = user.data;
       return result;
     }

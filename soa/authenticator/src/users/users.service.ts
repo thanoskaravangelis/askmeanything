@@ -5,6 +5,7 @@ import {InjectEntityManager} from "@nestjs/typeorm";
 import {EntityManager, MetadataAlreadyExistsError} from "typeorm";
 import axios from 'axios';
 import { BadRequestException } from '@nestjs/common';
+import { Md5 } from 'ts-md5';
 
 const dataUrl = 'http://localhost:3030/';
 
@@ -14,6 +15,9 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<any> {
       const isOk = await this.validSignUp(createUserDto.username, createUserDto.email);
       if (isOk) {
+        let pass = createUserDto.password;
+        let hashed = Md5.hashStr(pass).toString();
+        createUserDto.password = hashed;
         const user = await axios.post(dataUrl+'users',createUserDto);
         return user.data;
       }

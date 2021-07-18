@@ -5,6 +5,7 @@ import { InjectEntityManager } from "@nestjs/typeorm";
 import { EntityManager } from "typeorm";
 import { BadRequestException } from '@nestjs/common';
 import { User } from './entities/user.entity';
+import { Md5 } from 'ts-md5';
 
 const dataUrl = 'http://localhost:3030/';
 
@@ -15,6 +16,9 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<any> {
     const isOk = await this.validSignUp(createUserDto.username, createUserDto.email);
     if (isOk) {
+      let pass = createUserDto.password;
+      let hashed = Md5.hashStr(pass).toString();
+      createUserDto.password = hashed;
       const user = await this.manager.create(User, createUserDto);
       return this.manager.save(user);
     }
