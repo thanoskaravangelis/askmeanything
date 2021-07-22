@@ -1,3 +1,14 @@
+# frontend
+For our frontend we used React with react-bootstrap and canvas-js for our diagrams.
+
+---
+## Connection with SOA and microservices
+
+To connect the frontend with the endpoints of the services/microservices we used axios.
+
+It is important to report that by using a local storage variable our frontend is able to connect to both SOA and microservices using a button in the 'About' page as a switch between the two.
+
+---
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
