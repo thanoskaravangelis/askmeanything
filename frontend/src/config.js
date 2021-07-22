@@ -1,9 +1,13 @@
 module.exports = {
-    baseUrl: 'http://localhost:3000',
-    /* SOA */
-    questMan: 'http://localhost:3002/question-man',
-    questRun: 'http://localhost:3003/question-run',
-    profile: 'http://localhost:3004/profile',
-    auth: 'http://localhost:3001/auth',
-    esb: 'http://localhost:3000',
+    questMan: 'https://ask-soa-question-man.herokuapp.com/question-man',
+    questRun: 'https://ask-soa-question-run.herokuapp.com/question-run',
+    profile: 'https://ask-soa-profile-manager.herokuapp.com/profile',
+    auth: 'https://ask-soa-auth.herokuapp.com/auth',
+    esb: 'https://ask-soa-bus.herokuapp.com/',
+    authms: 'https://ask-ms-authenticator.herokuapp.com/auth',
+    questManMs: 'https://ask-ms-questionman.herokuapp.com',
+    questRunMs:'https://ask-ms-questionrun.herokuapp.com',
+    questDispMs:'https://ask-ms-questiondisp.herokuapp.com',
+    profileMs:'https://ask-ms-profile.herokuapp.com',
+    statsMs:'https://ask-ms-stats.herokuapp.com'
 }
