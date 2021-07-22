@@ -5,14 +5,15 @@ import Navbar from 'react-bootstrap/Navbar';
 
 function Footer() {
     return (
-        <Navbar bg="primary"
-                variant="dark"
+        <Navbar 
+                variant="light"
                 expand="lg"
-                fixed='bottom'>
+                fixed='bottom'
+                style={{ backgroundColor : 'rgb(200, 200, 200)'}}>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link style={{'width': '20vw'}} href="/about">About</Nav.Link>
+                    <Nav.Link style={{'width': '20vw'}} href="/aboutus">About</Nav.Link>
                     <Nav.Link style={{'width': '20vw'}} href="/contact">Contact us</Nav.Link>
                     <Nav.Link style={{'width': '20vw'}} href="/">Documentation</Nav.Link>
                     <Nav.Link style={{'width': '20vw'}} href="https://github.com/thanoskaravangelis/saas-80"

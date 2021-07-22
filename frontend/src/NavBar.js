@@ -26,33 +26,40 @@ function NavBar() {
 
 
     return(
-        <Navbar bg="primary" variant="dark">
-            <Navbar.Brand href="#home">
-                <img className='logo-icon' src={logo}/>
-            </Navbar.Brand>
-            <Nav className="mr-auto">
-                <Nav.Link href="/">Home</Nav.Link>
-                {userId &&
-                    <Nav.Link href="/my">My AskMeAnything</Nav.Link>
-                }
-                <Nav.Link href='/questions'>Questions</Nav.Link>
-                {userId &&
-                    <Nav.Link href="/ask">Ask a question</Nav.Link>            
-                }
-            </Nav>
-            {userId &&
-                <Nav>
-                    <Nav.Link href={`/users/${userId}`}>Profile</Nav.Link>            
-                    <Nav.Link href="#" onClick={logout}>Logout</Nav.Link>
+        <Navbar
+                expand="lg"
+                variant="light"
+                fixed='top'
+                style={{ backgroundColor : 'rgb(236, 141, 16)'}}
+                >
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Navbar.Brand href="#home">
+                    <img className='logo-icon' src={logo}/>
+                </Navbar.Brand>
+                <Nav className="mr-auto">
+                    <Nav.Link href="/">AskMeAnything</Nav.Link>
+                    {userId &&
+                        <Nav.Link href="/my">My AskMeAnything</Nav.Link>
+                    }
+                    <Nav.Link href='/questions'>Questions</Nav.Link>
+                    {userId &&
+                        <Nav.Link href="/ask">Ask a question</Nav.Link>            
+                    }
                 </Nav>
-            }
-            {!userId &&
-                <Nav>
-                    <Nav.Link href="/signin">Login</Nav.Link>
-                    <Nav.Link href="/signup">Register</Nav.Link>
-                </Nav>
-    
-            }
+                {userId &&
+                    <Nav>
+                        <Nav.Link href={`/users/${userId}`}>Profile</Nav.Link>            
+                        <Nav.Link href="#" onClick={logout}>Logout</Nav.Link>
+                    </Nav>
+                }
+                {!userId &&
+                    <Nav>
+                        <Nav.Link href="/signin">Login</Nav.Link>
+                        <Nav.Link href="/signup">Register</Nav.Link>
+                    </Nav>
+                }
+            </Navbar.Collapse>
         </Navbar>
     )
     return(

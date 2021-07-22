@@ -10,6 +10,13 @@ import NewQuestion from"./NewQuestion";
 import Home from './Home';
 import AnswerQuestion from './AnswerQuestion';
 import Profile from './Profile';
+import KeywordAnalytics from './KeywordAnalytics';
+import OneKeywordAnalytics from './OneKeywordAnalytics';
+import AllStats from './AllStats';
+import MyQuestions from './MyQuestions';
+import MyAnswered from './MyAnswered';
+import AboutUs from './AboutUs';
+
 const FindQuestion = () => {
   const { id } = useParams();
   return <AnswerQuestion id={ id } />;
@@ -20,6 +27,11 @@ const FindUser = () => {
   return <Profile id={ id } />;
 }
 
+const FindKeyword = () => {
+  const { name } = useParams();
+  return <OneKeywordAnalytics name={name} page={true} />;
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -27,25 +39,45 @@ ReactDOM.render(
         <Route path="/signin" exact>
           <Splash />
         </Route>
-        <Route path="/signup">
+        <Route path="/signup" exact>
           <SignUp />
         </Route>
-        <Route path="/ask">
+        <Route path="/ask" exact>
           <NewQuestion />
         </Route>
-        <Route path='/questions/:id'>
+        <Route path='/answers/my' exact>
+          <MyAnswered />
+        </Route>
+        <Route path='/questions/my' exact>
+          <MyQuestions />
+        </Route>
+        <Route path='/questions/:id' exact>
           <FindQuestion />
         </Route>
-        <Route path="/questions">
+        <Route path="/questions" exact>
           <Home />
         </Route>
-        <Route path='/users/:id'>
+        <Route path='/users/:id' exact>
           <FindUser />
+        </Route>
+        <Route path='/keywords/:name' exact>
+          <FindKeyword />
+        </Route>
+        <Route path='/keywords'exact >
+          <KeywordAnalytics />
+        </Route>
+        <Route path='/stats' exact>
+          <AllStats />
+        </Route>
+        <Route path='/aboutus' exact>
+          <AboutUs />
+        </Route>
+        <Route path='/my' exact>
+          <Landing case='my' />
         </Route>
         <Route path="/" exact>
           <Landing />
         </Route>
-
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

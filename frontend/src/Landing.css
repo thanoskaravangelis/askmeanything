@@ -1,5 +1,5 @@
 :root{
-    --orange: rgb(52, 191, 233);
+    --orange: rgb(236, 141, 16);
 }
 
 @import url();
@@ -8,6 +8,7 @@ body{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     height:fit-content;
     width: 100vw;
+    background-color: rgb(241, 241, 241);
 }
 
 @keyframes incoming{
@@ -189,7 +190,7 @@ body{
 }
 
 .content-box:hover{
-    background: linear-gradient(var(--orange), 100px, rgb(169, 240, 228)400px);
+    background: linear-gradient(var(--orange), 100px, rgb(228, 134, 46)400px);
     box-shadow: 4px 4px 8px rgba(114, 114, 114, 0.561);
 }
 
@@ -231,7 +232,27 @@ body{
     border-radius: 2px;
     margin:30px;
     background-image: url(images/exclam.png);
-    background-size: 20vh;
+    background-size: 19vh;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#quest-img-3{
+    height:160px;
+    border-radius: 2px;
+    margin:30px;
+    background-image: url(images/keyword.png);
+    background-size: 17vh;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#quest-img-4{
+    height:160px;
+    border-radius: 2px;
+    margin:30px;
+    background-image: url(images/stats2.png);
+    background-size: 18vh;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -253,8 +274,18 @@ body{
     border-radius: 2px;
     background: rgb(255, 206, 159);
 }
+.quest-but2{
+    margin:70px;
+    padding:10px;
+    height:fit-content;
+    width:240px;
+    font-size: larger;
+    border:1px solid grey;
+    border-radius: 2px;
+    background: rgb(255, 206, 159);
+}
 
-.quest-but:hover{
+.quest-but:hover , .quest-but2:hover{
     cursor: pointer;
     background-color: rgb(250, 165, 86);
     color:rgb(77, 22, 0);

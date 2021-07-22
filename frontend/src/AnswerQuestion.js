@@ -22,9 +22,10 @@ function AnswerQuestion(props) {
             setUserId(response.data.id);
         })
         .catch(err => {
-            window.location.href='/';
+            window.alert('You have to create an account to answer questions.');
+            setTimeout(()=>{window.location.href='/'}, 500);
         })
-        getQuestions()
+        getQuestions('2000-01-01', '2099-01-01')
         .then(response => {
             console.log(response.data);
             setQuestions(response.data);
@@ -83,10 +84,9 @@ function AnswerQuestion(props) {
     return (
         <div className="all-page">
             <NavBar />
-            <div className="line-separator" />
-            <div style={{'marginTop': '10px'}} />
+            <div style={{'paddingTop': '90px'}} />
             <div className='flex'>
-                <h5>Select a question to answer</h5>
+                <h5 style={{'marginRight': '10px'}}>Select a question to answer</h5>
                 <select value={questionId} onChange={(event)=>{setQuestionId(event.target.value)}}>
                     {questions.map((value, index) => {
                         return(
@@ -105,7 +105,7 @@ function AnswerQuestion(props) {
                <div style={{'color': 'red'}}>Invalid question</div>
             }
             <div style={{'marginTop': '10px'}} />
-            <h5>Post an answer</h5>
+            <h5>Post your answer</h5>
             <textarea className='answer-textarea' value={text} onChange={(event)=>{setText(event.target.value);setError(null)}} />
             <div className='break' />
             <Button variant='outline-primary' onClick={submit}>Submit answer</Button>

@@ -9,7 +9,7 @@ function Home() {
     return (
         <div className="all-page">
             <NavBar />
-            <div className="line-separator" />
+            <div style={{'paddingTop': '70px'}} />
             <Questions />
             <div style={{'paddingBottom': '100px'}} />
             <Footer />

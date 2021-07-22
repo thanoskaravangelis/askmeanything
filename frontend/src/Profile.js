@@ -4,6 +4,7 @@ import './Profile.css';
 import NavBar from './NavBar';
 import Footer from './Footer';
 import OneQuestion from './OneQuestion';
+import Button from 'react-bootstrap/Button';
 import { getProfile, getProfileAnswered, getProfileQuestions, isLogged } from './api';
 
 
@@ -17,6 +18,8 @@ function Profile(props) {
     const [questionsEnd, setQuestionsEnd] = useState(5);
     const [answeredStart, setAnsweredStart] = useState(1);
     const [answeredEnd, setAnsweredEnd] = useState(5);
+    const [questionsOver, setQuestionsOver] = useState(false);
+    const [answeredOver, setAnsweredOver] = useState(false);
 
     const logged = () => {
         isLogged()
@@ -46,10 +49,12 @@ function Profile(props) {
         getProfileQuestions(parseInt(props.id), questionsStart, questionsEnd)
         .then(response => {
             console.log(response);
+            if (!response.data.questions.length) setQuestionsOver(true);
             setQuestions(questions.concat(response.data.questions));
         })
         .catch(err => {
             console.log(err);
+            setQuestionsOver(true);
         })
     }
 
@@ -57,10 +62,11 @@ function Profile(props) {
         getProfileAnswered(parseInt(props.id), answeredStart, answeredEnd)
         .then(response => {
             console.log(response.data);
-            setAnswered(answered.concat(response.data.answered));
+            setAnswered(answered.concat(response.data));
         })
         .catch(err => {
             console.log(err);
+            setAnsweredOver(true);
         })
     }
 
@@ -80,13 +86,30 @@ function Profile(props) {
     return (
         <div className='main-page'>
             <NavBar />
+            <div style={{'paddingTop': '70px'}} />
             {!user &&
                 <div style={{'color': 'red'}}>{err}</div>
             }
             {user &&
                 <div style={{'paddingBottom': '100px'}}>
-                    <div>{user.username}</div>
-                    <div>{user.email}</div>
+                    <div className='center-content'>
+                        <div style={{'fontSize': 'x-large'}}>{user.username}</div>
+                        <div style={{'fontSize': 'large'}}>Email: {user.email}</div>
+                        {user.country &&
+                            <div style={{'fontSize': 'large'}}>From {user.country}</div>                
+                        }
+                        {user.first_name &&
+                            <div style={{'fontSize': 'large'}}>First name: {user.first_name}</div>                
+                        }
+                        {user.last_name &&
+                            <div style={{'fontSize': 'large'}}>Last name {user.last_name}</div>                
+                        }
+                        {user.createdAt &&
+                            <div style={{'fontSize': 'large'}}>Member since {user.createdAt.slice(0, 10)}</div>                
+                        }
+                        
+                    </div>
+                    <hr></hr>
                     <h4>Questions asked by {user.username}</h4>
                     {questions.length &&
                         questions.map((value, index) => {
@@ -95,16 +118,34 @@ function Profile(props) {
                             );
                         })
                     }
+                    {questions.length && !questionsOver &&
+                        <Button onClick={()=>{setQuestionsStart(questionsStart+5);setQuestionsEnd(questionsEnd+5)}}
+                                variant='outline-warning'>
+                            See more
+                        </Button>
+                    }
+                    {questionsOver &&
+                        <div style={{'color': 'red'}}>No more questions found.</div>
+                    }
                     {!questions.length &&
                         <div style={{'color': 'red'}}>No questions found.</div>
                     }
-                    <h4>Questions answered by {user.username}</h4>
+                    <h4 style={{'marginTop': '5px'}}>Questions answered by {user.username}</h4>
                     {answered.length &&
                         answered.map((value, index) => {
                             return (
                                 <OneQuestion key={index} question={value} />
                             );
                         })
+                    }
+                    {answered.length && !answeredOver &&
+                        <Button onClick={()=>{setAnsweredStart(answeredStart+5);setAnsweredEnd(answeredEnd+5)}}
+                                variant='outline-primary'>
+                            See more
+                        </Button>
+                    }
+                    {answeredOver &&
+                        <div style={{'color': 'red'}}>No more answered questions found.</div>
                     }
                     {!answered.length &&
                         <div style={{'color': 'red'}}>No answered questions found.</div>

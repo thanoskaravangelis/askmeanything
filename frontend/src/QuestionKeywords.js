@@ -9,7 +9,7 @@ function OneKeyword(props) {
     }, [props.keyword]);
 
     return(
-        <a className="keyword-div" href={`/keywords/${keyword.id}`}>
+        <a className="keyword-div" href={`/keywords/${keyword.name}`}>
             {keyword.name}
         </a>
     )

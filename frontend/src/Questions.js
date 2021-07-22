@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Landing.css';
 import './Questions.css'
-import Pagination from 'react-bootstrap/Pagination'
 import OneQuestion from './OneQuestion';
 import { getQuestions } from './api';
 

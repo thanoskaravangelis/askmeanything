@@ -27,7 +27,7 @@ function Splash () {
         loginPost(username, password)
         .then(response => {
             localStorage.setItem('token', response.data.access_token);
-            setSuccess('Loggen in succesfully');
+            setSuccess('Logged in succesfully');
             setTimeout(()=>{window.location.href='/'}, 200);
         })
         .catch(err => {

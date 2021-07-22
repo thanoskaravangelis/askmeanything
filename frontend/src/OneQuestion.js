@@ -6,28 +6,11 @@ import Button from 'react-bootstrap/Button';
 
 function OneQuestion(props) {
     const [question, setQuestion] = useState(props.question);
-    const [upvoted, setUpvotes] = useState(false);
-    const [downvoted, setDownvoted] = useState(false);
     
     useEffect(()=>{
         setQuestion(props.question);
+        console.log(props.question);
     }, [props.question]);
-
-    const upvote = () => {
-
-    }
-
-    const delUpvote = () => {
-
-    }
-
-    const downvote = () => {
-
-    }
-
-    const delDownvote = () => {
-
-    }
 
     return (
         <div className = "question-div">
@@ -45,14 +28,6 @@ function OneQuestion(props) {
             <QuestionKeywords keywords={question.keywords} />
             <div style={{'marginTop': '5px'}} />
             {props.showAnswers &&
-                <Button
-                    className='margin'
-                    variant='outline-primary'
-                    onClick={()=>{window.location.href=`/questions/${question.id}`}}>
-                    See details/Answer
-                </Button>        
-            }
-            {props.showAnswers &&
                 <QuestionAnswers answers={question.answers} />        
             }
             {!props.showAnswers && question.answers.length>0 &&
@@ -64,8 +39,9 @@ function OneQuestion(props) {
             {!props.showAnswers &&
                 <Button
                     className='margin'
-                    variant='outline-primary'
-                    onClick={()=>{window.location.href=`/questions/${question.id}`}}>
+                    variant='outline-warning'
+                    onClick={()=>{window.location.href=`/questions/${question.id}`}}
+                    style={{color:'black'}}>
                     See details/Answer
                 </Button>        
             }

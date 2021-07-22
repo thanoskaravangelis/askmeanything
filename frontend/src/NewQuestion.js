@@ -24,8 +24,8 @@ function NewQuestion() {
             setUserId(response.data.id);
         })
         .catch(err => {
-            console.log(err);
-            window.location.href='/';
+            window.alert('You have to create an account to ask questions.');
+            setTimeout(()=>{window.location.href='/'}, 500);
         })
         getKeywords()
         .then(response => {
@@ -115,7 +115,7 @@ function NewQuestion() {
     return(
         <div className="new-question-whole">
             <NavBar />
-            <div className="line-separator"></div>
+            <div style={{'paddingTop': '70px'}} />
             <div style={{'paddingBottom': '100px', 'marginTop': '10px'}}>
                     <h4 className="new-question-title">
                         Add a New Question
