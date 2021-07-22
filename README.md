@@ -1,12 +1,13 @@
 # saas-80
 A repository containing the project's work for the course Software as a Service in the 8th semester of the department of Electronical and Computer Engineering NTUA.
 
-
-<style>#my-div{display:flex; flex:column;} </style>
-<div id="my-div">
-    <img id="img1" src="frontend/src/images/lightbulb_icon.png"        alt="askmeanything logo" width="70" height="70"/>  
-    <h2 id="title">askmeanything</h2> 
-</div>
+<html>
+    <style>#my-div{display:flex; flex:column;} </style>
+    <div id="my-div">
+        <img id="img1" src="frontend/src/images/lightbulb_icon.png" alt="askmeanything logo" width="70" height="70"/>  
+        <h2 id="title">askmeanything</h2> 
+    </div>
+</html>
 
 The aim of the project was to create a question-answer management application, named *askmeanything*, with minimal functionality that implements some Software as a Service (SaaS) architectures.
 
