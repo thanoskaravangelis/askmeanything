@@ -10,7 +10,7 @@ A repository containing the project's work for the course Software as a Service 
 
 The aim of the project was to create a question-answer management application, named *askmeanything*, with minimal functionality that implements some Software as a Service (SaaS) architectures.
 
-You can find our app deployed on heroku here -><a ref="https://ask-soa-frontend.herokuapp.com/"> askmeanything</a>
+You can find our app deployed on heroku here: https://ask-soa-frontend.herokuapp.com/
 
 - - - 
 
