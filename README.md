@@ -1,4 +1,4 @@
-# saas-80
+# askmeanything
 A repository containing the project's work for the course Software as a Service in the 8th semester of the department of Electronical and Computer Engineering NTUA.
 
 <html>
